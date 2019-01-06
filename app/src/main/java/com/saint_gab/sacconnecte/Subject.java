@@ -49,8 +49,12 @@ public class Subject {
         return mName;
     }
 
+    public void setName(String name) { mName = name; }
+
     public String getColor()
     {
         return mColor;
     }
+
+    public void setColor(String color) { mColor = color; }
 }

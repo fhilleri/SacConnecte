@@ -20,6 +20,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     }
 
     Subject mSubjectToEdit;//Est nul en cas de création de subject
+    boolean editing;//Précise si on modifie ou si on créé un subject
 
     //Use this instance of the interface to deliver action events
     NewSubjectDialogListener mListener;
@@ -33,6 +34,8 @@ public class NewSubjectDialogFragment extends DialogFragment {
     public NewSubjectDialogFragment(Object parent, Subject subjectToEdit)
     {
         mSubjectToEdit = subjectToEdit;
+        editing = subjectToEdit != null;
+
         //Verify that the host activity implements the callback interface
         try {
             //Instantiate the NoticeDialogListener so we can send events to the host
@@ -51,15 +54,21 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle("Nouvelle matière");
+        builder.setTitle(editing ? "Modification" : "Nouvelle matière");
         builder.setView(mView);
-        builder.setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                createSubject();
+                if (editing) editSubject();
+                else createSubject();
             }
         });
         builder.setNegativeButton("Annuler", null);
+
+        mName = mView.findViewById(R.id.dialog_fragment_subject_name);
+        mColor = mView.findViewById(R.id.dialog_fragment_subject_color);
+
+        if (editing) importSubjectToEdit();
 
         return builder.create();
     }
@@ -70,10 +79,14 @@ public class NewSubjectDialogFragment extends DialogFragment {
         mColor.setText(mSubjectToEdit.getColor());
     }
 
+    private void editSubject()
+    {
+        mSubjectToEdit.setName(mName.getText().toString());
+        mSubjectToEdit.setColor(mColor.getText().toString());
+    }
+
     private void createSubject()
     {
-        mName = mView.findViewById(R.id.dialog_fragment_subject_name);
-        mColor = mView.findViewById(R.id.dialog_fragment_subject_color);
         String name = mName.getText().toString();
         String color = mColor.getText().toString();
         Subject newSubject = new Subject(name, color);

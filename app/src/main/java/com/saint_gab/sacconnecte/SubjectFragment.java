@@ -102,6 +102,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (onDeleteMode) mTimetable.deleteSubject(i);
+                if (onEditMode) editSubject(i);
                 configureListView();
             }
         });
@@ -109,13 +110,14 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
 
     private void newSubject()
     {
-        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this);
+        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, null);
         newSubjectDialogFragment.show(getFragmentManager(), "newSubject");
     }
 
-    private void editSubject()
+    private void editSubject(int index)
     {
-
+        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, mTimetable.getSubject(index));
+        newSubjectDialogFragment.show(getFragmentManager(), "editSubject");
     }
 
     //Implemente l'interface de communication avec la boîte de dialogue pour récupérer le nouveau Subject

@@ -74,4 +74,6 @@ public class Timetable {
     {
         return mSubjects;
     }
+
+    public Subject getSubject(int index) { return mSubjects.get(index); }
 }
