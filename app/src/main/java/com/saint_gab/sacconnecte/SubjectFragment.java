@@ -123,7 +123,10 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
     //Implemente l'interface de communication avec la boîte de dialogue pour récupérer le nouveau Subject
     @Override
     public void onDialogPositiveClick(Subject newSubject) {
-        mTimetable.addSubject(newSubject);
+        if (newSubject != null) mTimetable.addSubject(newSubject);
         configureListView();
+
+        onEditMode = false;
+        refreshButtonColor();
     }
 }

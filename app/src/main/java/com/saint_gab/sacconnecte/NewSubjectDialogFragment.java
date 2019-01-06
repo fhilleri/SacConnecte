@@ -83,6 +83,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     {
         mSubjectToEdit.setName(mName.getText().toString());
         mSubjectToEdit.setColor(mColor.getText().toString());
+        mListener.onDialogPositiveClick(null);
     }
 
     private void createSubject()
