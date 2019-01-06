@@ -25,6 +25,8 @@ public class Timetable {
         mSubjects.add(new Subject("EPS", "#578ff7"));//6
         mSubjects.add(new Subject("Espagnol", "#fc9d28"));//7
         mSubjects.add(new Subject("ETT LV1", "#ccff33"));//8
+        mSubjects.add(new Subject("ETT", "#ff0000"));//9
+        mSubjects.add(new Subject("Philo", "#ffdbff"));//10
 
         mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35"));
         mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35"));
@@ -32,9 +34,31 @@ public class Timetable {
         mDays[0].add(new Lesson(mSubjects.get(8), "16h45", "17h40"));
 
         mDays[1].add(new Lesson(mSubjects.get(6), "8h30", "10h20"));
+        mDays[1].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
+        mDays[1].add(new Lesson(mSubjects.get(1), "13h45", "14h40"));
+        mDays[1].add(new Lesson(mSubjects.get(0), "14h40", "15h35"));
+        mDays[1].add(new Lesson(mSubjects.get(4), "15h50", "17h40"));
+
+
         mDays[2].add(new Lesson(mSubjects.get(3), "8h30", "10h40"));
+        mDays[2].add(new Lesson(mSubjects.get(1), "10h40", "12h35"));
+        mDays[2].add(new Lesson(mSubjects.get(9), "13h45", "14h40"));
+        mDays[2].add(new Lesson(mSubjects.get(10), "14h40", "16h45"));
+        mDays[2].add(new Lesson(mSubjects.get(0), "16h45", "17h40"));
+
+
         mDays[3].add(new Lesson(mSubjects.get(2), "8h30", "10h20"));
+        mDays[3].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
+        mDays[3].add(new Lesson(mSubjects.get(0), "13h45", "14h40"));
+        mDays[3].add(new Lesson(mSubjects.get(7), "14h40", "15h35"));
+        mDays[3].add(new Lesson(mSubjects.get(4), "15h50", "16h45"));
+        mDays[3].add(new Lesson(mSubjects.get(2), "16h45", "17h40"));
+
+
         mDays[4].add(new Lesson(mSubjects.get(5), "8h30", "10h20"));
+        mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40"));
+        mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35"));
+        mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25"));
 
     }
 
