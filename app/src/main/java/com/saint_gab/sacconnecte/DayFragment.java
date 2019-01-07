@@ -3,6 +3,7 @@ package com.saint_gab.sacconnecte;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,19 +24,22 @@ public class DayFragment extends Fragment {
     ArrayList<Lesson> lessons;
     ListView listView;
     private static LessonAdapter adapter;
+
+    private TimetableFragment mParent;
     private Timetable mTimetable;
     private int mIndex;//index of this DayFragment in the DayPageAdapter list
-
     public String mDay;
+
     private View mView;
 
-    public static DayFragment newInstance(Timetable timetable, int index, String day)
+    public static DayFragment newInstance(TimetableFragment parent, Timetable timetable, int index, String day)
     {
-        return(new DayFragment(timetable, index, day));
+        return(new DayFragment(parent, timetable, index, day));
     }
 
     @SuppressLint("ValidFragment")
-    public DayFragment(Timetable timetable, int index, String day) {
+    public DayFragment(TimetableFragment parent, Timetable timetable, int index, String day) {
+        mParent = parent;
         mTimetable = timetable;
         mIndex = index;
         mDay = day;
@@ -65,13 +69,32 @@ public class DayFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i("DayFragment", "onItemClick: i = " + i);
-                mTimetable.deleteLesson(mIndex, i);
-                adapter = new LessonAdapter(lessons, getContext());
-                listView.setAdapter(adapter);
+                switch (mParent.getMode())
+                {
+                    case 1:
+                        editlesson(i);
+                        break;
+                    case 2:
+                        delete(i);
+                        break;
+                }
             }
         });
 
         return mView;
+    }
+
+    private void editlesson(int index)
+    {
+        DialogFragment newLessonDialogFragment = new NewLessonDialogFragment(mParent, mTimetable, lessons.get(index));
+        newLessonDialogFragment.show(getFragmentManager(), "newSubject");
+    }
+
+    public void delete(int index)
+    {
+        mTimetable.deleteLesson(mIndex, index);
+        adapter = new LessonAdapter(lessons, getContext());
+        listView.setAdapter(adapter);
     }
 
 }

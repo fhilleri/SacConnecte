@@ -12,7 +12,7 @@ public class DayPageAdapter extends FragmentPagerAdapter {
     private Timetable mTimetable;
 
     //Constructeur
-    public DayPageAdapter(FragmentManager mgr, Context context, Timetable timetable)
+    public DayPageAdapter(TimetableFragment parent, FragmentManager mgr, Context context, Timetable timetable)
     {
         super(mgr);
         Resources res =  context.getResources();
@@ -22,7 +22,7 @@ public class DayPageAdapter extends FragmentPagerAdapter {
 
         for(int i=0; i<mDayFragments.length; i++)
         {
-            mDayFragments[i] = DayFragment.newInstance(timetable, i, daysNames[i]);
+            mDayFragments[i] = DayFragment.newInstance(parent, timetable, i, daysNames[i]);
         }
     }
 

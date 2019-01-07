@@ -15,6 +15,13 @@ public class Lesson {
         mSubject.addLesson(this);
     }
 
+    public void setSubject(Subject subject)
+    {
+        mSubject.removeLesson(this);
+        mSubject = subject;
+        mSubject.addLesson(this);
+    }
+
     public String getName()
     {
         return mSubject.getName();

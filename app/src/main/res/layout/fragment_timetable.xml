@@ -22,7 +22,7 @@
 
     <android.support.v4.view.ViewPager
 
-        android:id="@+id/activity_main_viewpager"
+        android:id="@+id/fragment_timetable_activity_main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
@@ -38,19 +38,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ajouter"
-            android:id="@+id/button_new"/>
+            android:id="@+id/fragment_timetable_button_new"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modifier"
-            android:id="@+id/button_edit"/>
+            android:id="@+id/fragment_timetable_button_edit"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Supprimer"
-            android:id="@+id/button_delete"/>
+            android:id="@+id/fragment_timetable_button_delete"/>
 
     </LinearLayout>
 

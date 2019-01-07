@@ -73,6 +73,12 @@ public class NewSubjectDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    private boolean verifyValues()
+    {
+        //On vérifie que les valeurs entré par l'utilisateur sont correct
+        return true;
+    }
+
     private void importSubjectToEdit()
     {
         mName.setText(mSubjectToEdit.getName());
