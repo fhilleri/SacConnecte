@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/navheader_height"
+    android:layout_width="wrap_content"
+    android:layout_height="150dp"
     android:background="#FFFFFF"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <ImageView
+        android:contentDescription="Logo"
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo_saint_gab"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        />
 
 </LinearLayout>
