@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NewSubjectDialogFragment extends DialogFragment {
 
@@ -59,8 +60,12 @@ public class NewSubjectDialogFragment extends DialogFragment {
         builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (editing) editSubject();
-                else createSubject();
+                if (verifyContent())
+                {
+                    if (editing) editSubject();
+                    else createSubject();    
+                }
+                else Toast.makeText(getContext(), "Impossible de créer la matière", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Annuler", null);
@@ -98,5 +103,15 @@ public class NewSubjectDialogFragment extends DialogFragment {
         String color = mColor.getText().toString();
         Subject newSubject = new Subject(name, color);
         mListener.onDialogPositiveClick(newSubject);
+    }
+
+    private boolean verifyContent()
+    {
+        boolean result;
+        result = (
+                !mName.getText().toString().isEmpty()
+                        && !mColor.getText().toString().isEmpty());
+
+        return result;
     }
 }

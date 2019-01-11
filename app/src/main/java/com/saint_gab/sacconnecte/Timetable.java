@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Timetable {
 
-    ArrayList<Lesson>[] mDays;
     ArrayList<Subject> mSubjects;
+    ArrayList<Lesson>[] mDays;
 
     public Timetable()
     {
@@ -59,6 +59,8 @@ public class Timetable {
         mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40"));
         mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35"));
         mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25"));
+
+
 
     }
 
@@ -118,4 +120,17 @@ public class Timetable {
     }
 
     public Subject getSubject(int index) { return mSubjects.get(index); }
+
+    //Création d'un fichier CSV pour sauvegarder l'emploi du temps
+    private void saveTimetable()
+    {
+        String subjectsStr = "";//Premiere ligne du fichier csv qui stocke toutes les matières
+        String lessonsStr = "";//Seconde ligne du fichier csv qui stocke tout les cours
+
+        for (int i=0; i < mSubjects.size(); i++)
+        {
+            subjectsStr += mSubjects.get(i).getName();
+            if(i != mSubjects.size() - 1)   subjectsStr += ";";
+        }
+    }
 }
