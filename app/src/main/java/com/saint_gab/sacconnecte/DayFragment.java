@@ -61,7 +61,13 @@ public class DayFragment extends Fragment {
 
         lessons = mTimetable.getLessons(mIndex);
 
+        configureListView();
 
+        return mView;
+    }
+
+    public void configureListView()
+    {
         adapter = new LessonAdapter(lessons, getContext());
         listView.setAdapter(adapter);
 
@@ -80,8 +86,6 @@ public class DayFragment extends Fragment {
                 }
             }
         });
-
-        return mView;
     }
 
     private void editlesson(int index)
