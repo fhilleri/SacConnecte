@@ -1,5 +1,6 @@
 package com.saint_gab.sacconnecte;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -84,33 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
-    // FRAGMENTS
-
-    // - 5 Show fragment according an Identifier
-
-    /*private void showFragment(int fragmentIdentifier)
-    {
-        switch (fragmentIdentifier)
-        {
-            case FRAGMENT_BACKPACK:
-                toolbar.setTitle("Sac à dos");
-                this.showBackpackFragment();
-                break;
-            case FRAGMENT_TIMETABLE:
-                toolbar.setTitle("Emploi du temps");
-                this.showTimetableFragment();
-                break;
-            case FRAGMENT_SUBJECTS:
-                toolbar.setTitle("Matières");
-                this.showTimetableFragment();
-                break;
-            default:
-                break;
-        }
-    }
-*/
     //création de chaque page et affichage de celles ci
     private void showBackpackFragment()
     {
@@ -175,6 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureTimeTable()
     {
-        mTimetable = new Timetable();
+        mTimetable = new Timetable(getApplicationContext());
     }
 }

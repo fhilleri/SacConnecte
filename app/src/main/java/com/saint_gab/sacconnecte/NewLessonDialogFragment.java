@@ -105,6 +105,8 @@ public class NewLessonDialogFragment extends DialogFragment {
     {
         Subject subject = mTimetable.getSubject(mSpinner.getSelectedItemPosition());
         mLessonToEdit.setSubject(subject);
+        mLessonToEdit.setStartTime(mStartTime.getText().toString());
+        mLessonToEdit.setEndTime(mEndTime.getText().toString());
         mListener.onDialogPositiveClick(null);
     }
 

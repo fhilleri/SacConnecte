@@ -2,6 +2,7 @@ package com.saint_gab.sacconnecte;
 
 import android.util.Log;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class Subject {
@@ -10,8 +11,21 @@ public class Subject {
     private String mColor;
     private ArrayList<Lesson> mLessons;
 
-    public Subject(String name, String color)
+    private Timetable mTimetable;
+
+    public Subject(String str, Timetable timetable)
     {
+        mTimetable = timetable;
+        String[] arguments = str.split(":");
+        mName = arguments[0];
+        mColor = arguments[1];
+
+        mLessons = new ArrayList<>();
+    }
+
+    public Subject(String name, String color, Timetable timetable)
+    {
+        mTimetable = timetable;
         mName = name;
         mColor = color;
 
@@ -49,12 +63,18 @@ public class Subject {
         return mName;
     }
 
-    public void setName(String name) { mName = name; }
+    public void setName(String name) {
+        mName = name;
+        mTimetable.saveTimetable();
+    }
 
     public String getColor()
     {
         return mColor;
     }
 
-    public void setColor(String color) { mColor = color; }
+    public void setColor(String color) {
+        mColor = color;
+        mTimetable.saveTimetable();
+    }
 }

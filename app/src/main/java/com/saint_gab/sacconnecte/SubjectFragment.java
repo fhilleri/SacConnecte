@@ -110,13 +110,13 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
 
     private void newSubject()
     {
-        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, null);
+        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, null, mTimetable);
         newSubjectDialogFragment.show(getFragmentManager(), "newSubject");
     }
 
     private void editSubject(int index)
     {
-        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, mTimetable.getSubject(index));
+        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, mTimetable.getSubject(index), mTimetable);
         newSubjectDialogFragment.show(getFragmentManager(), "editSubject");
     }
 

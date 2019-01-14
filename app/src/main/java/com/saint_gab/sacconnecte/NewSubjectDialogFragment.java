@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.icu.text.TimeZoneFormat;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -29,13 +30,15 @@ public class NewSubjectDialogFragment extends DialogFragment {
     View mView;
     EditText mName;
     EditText mColor;
+    Timetable mTimetable;
     public NewSubjectDialogFragment() {}
 
     @SuppressLint("ValidFragment")
-    public NewSubjectDialogFragment(Object parent, Subject subjectToEdit)
+    public NewSubjectDialogFragment(Object parent, Subject subjectToEdit, Timetable timetable)
     {
         mSubjectToEdit = subjectToEdit;
         editing = subjectToEdit != null;
+        mTimetable = timetable;
 
         //Verify that the host activity implements the callback interface
         try {
@@ -101,7 +104,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     {
         String name = mName.getText().toString();
         String color = mColor.getText().toString();
-        Subject newSubject = new Subject(name, color);
+        Subject newSubject = new Subject(name, color, mTimetable);
         mListener.onDialogPositiveClick(newSubject);
     }
 
