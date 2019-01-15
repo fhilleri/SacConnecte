@@ -4,40 +4,28 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/activity_main_drawer_backpack"
-            android:title="Sac à dos"/>
-
-        <item
-            android:id="@+id/activity_main_drawer_timetable"
-            android:title="Emploi du temps"/>
-
-        <item
-            android:id="@+id/activity_main_drawer_subjects"
-            android:title="Matières"/>
-
+            android:title="Sac à dos"
+            android:icon="@drawable/ic_logosac"/>
     </group>
 
-    <item android:title="Configuration">
-
+    <item android:title="Gestion de l'emploi du temps">
         <menu>
-
             <group android:checkableBehavior="single">
 
                 <item
-                    android:id="@+id/activity_main_drawer_RFID"
-                    android:title="Attribution RFID"/>
+                    android:id="@+id/activity_main_drawer_timetable"
+                    android:title="Emploi du temps"
+                    android:icon="@drawable/ic_schedule_black_24dp"/>
+
                 <item
-                    android:id="@+id/activity_main_drawer_settings"
-                    android:title="Paramètres"/>
+                    android:id="@+id/activity_main_drawer_subjects"
+                    android:title="Matières"
+                    android:icon="@drawable/ic_school_black_24dp"/>
 
             </group>
-
         </menu>
-
     </item>
-
-
 
 </menu>

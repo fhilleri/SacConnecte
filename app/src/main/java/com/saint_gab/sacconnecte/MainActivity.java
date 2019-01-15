@@ -72,10 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_subjects :
                 showSubjectFragment();
                 break;
-            case R.id.activity_main_drawer_RFID :
-                break;
-            case R.id.activity_main_drawer_settings :
-                break;
             default:
                 break;
         }

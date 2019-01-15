@@ -50,8 +50,18 @@ public class TimetableFragment extends Fragment implements NewLessonDialogFragme
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_timetable, container, false);
+
+        configureTabLayout();
         configureViewPagerAndTabs();
+        configureButtons();
         return mView;
+    }
+
+    private void configureTabLayout()
+    {
+        mTabs = (TabLayout)mView.findViewById(R.id.activity_main_tabs);
+        //Design purpose, Tabs have the same width
+        mTabs.setTabMode(TabLayout.MODE_FIXED);
     }
 
 
@@ -62,13 +72,8 @@ public class TimetableFragment extends Fragment implements NewLessonDialogFragme
         //Set Adapter DayPageAdapter and glue it together
         pager.setAdapter(new DayPageAdapter(this, getChildFragmentManager(), getContext(), mTimetable));
 
-        mTabs = (TabLayout)mView.findViewById(R.id.activity_main_tabs);
         //Glue TabsLayout and viewPager together
         mTabs.setupWithViewPager(pager);
-        //Design purpose, Tabs have the same width
-        mTabs.setTabMode(TabLayout.MODE_FIXED);
-
-        configureButtons();
     }
 
     private void configureButtons()
@@ -131,11 +136,18 @@ public class TimetableFragment extends Fragment implements NewLessonDialogFragme
         else return 0;
     }
 
+    //Quand l'utilisateur valide la boîte de dialogue de création ou de modification de lesson
     @Override
     public void onDialogPositiveClick(Lesson newLesson) {
         if (newLesson != null) mTimetable.addLesson(newLesson, mTabs.getSelectedTabPosition());
         onDeleteMode = false;
         onEditMode = false;
+
+        int tabFocus = mTabs.getSelectedTabPosition();
+        configureViewPagerAndTabs();
+        TabLayout.Tab tab = mTabs.getTabAt(tabFocus);
+        tab.select();
+
         refreshButtonColor();
     }
 }

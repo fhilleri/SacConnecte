@@ -34,17 +34,17 @@ public class Timetable {
         }
         mSubjects = new ArrayList<>();
 
-        /*mSubjects.add(new Subject("Maths", "#00B81C"));//0
-        mSubjects.add(new Subject("Anglais", "#CF3838"));//1
-        mSubjects.add(new Subject("Physique", "#b3b3b3"));//2
-        mSubjects.add(new Subject("SIN", "#8ce6ff"));//3
-        mSubjects.add(new Subject("Etude", "#ffffff"));//4
-        mSubjects.add(new Subject("Devoir", "#8b63e0"));//5
-        mSubjects.add(new Subject("EPS", "#578ff7"));//6
-        mSubjects.add(new Subject("Espagnol", "#fc9d28"));//7
-        mSubjects.add(new Subject("ETT LV1", "#ccff33"));//8
-        mSubjects.add(new Subject("ETT", "#ff0000"));//9
-        mSubjects.add(new Subject("Philo", "#ffdbff"));//10
+        /*mSubjects.add(new Subject("Maths", "#00B81C", this));//0
+        mSubjects.add(new Subject("Anglais", "#CF3838", this));//1
+        mSubjects.add(new Subject("Physique", "#b3b3b3", this));//2
+        mSubjects.add(new Subject("SIN", "#8ce6ff", this));//3
+        mSubjects.add(new Subject("Etude", "#ffffff", this));//4
+        mSubjects.add(new Subject("Devoir", "#8b63e0", this));//5
+        mSubjects.add(new Subject("EPS", "#578ff7", this));//6
+        mSubjects.add(new Subject("Espagnol", "#fc9d28", this));//7
+        mSubjects.add(new Subject("ETT LV1", "#ccff33", this));//8
+        mSubjects.add(new Subject("ETT", "#ff0000", this));//9
+        mSubjects.add(new Subject("Philo", "#ffdbff", this));//10
 
         mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35"));
         mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35"));
@@ -230,10 +230,13 @@ public class Timetable {
 
     private void loadSubjects(String str)
     {
-        String[] subjectsStr = str.split(";");
-        for (int i=0; i < subjectsStr.length; i++)
+        if (!str.isEmpty())
         {
-            mSubjects.add(new Subject(subjectsStr[i], this));
+            String[] subjectsStr = str.split(";");
+            for (int i=0; i < subjectsStr.length; i++)
+            {
+                mSubjects.add(new Subject(subjectsStr[i], this));
+            }
         }
     }
 
@@ -241,12 +244,12 @@ public class Timetable {
     {
         Log.i("Timetable", "loadDays: str = " + str);
         String[] days = str.split("/");
-        mDays = new ArrayList[days.length];
+        //mDays = new ArrayList[days.length];
 
         for (int i=0; i < days.length; i++)
         {
             mDays[i] = new ArrayList<>();
-            loadDay(days[i], i);
+            if (!days[i].isEmpty()) loadDay(days[i], i);
         }
 
     }
@@ -258,5 +261,10 @@ public class Timetable {
         {
             mDays[index].add(new Lesson(lessons[i], this));
         }
+    }
+
+    private void initializeTimetable()//Initialise l'emploi du temps dans le cas d'un premier lancement de l'application
+    {
+
     }
 }
