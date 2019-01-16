@@ -21,6 +21,7 @@ public class Timetable {
 
     ArrayList<Subject> mSubjects;
     ArrayList<Lesson>[] mDays;
+    ArrayList<Equipment> mEquipments;
     Context mContext;
 
     public Timetable(Context context)
@@ -33,6 +34,9 @@ public class Timetable {
             mDays[i] = new ArrayList<>();
         }
         mSubjects = new ArrayList<>();
+        mEquipments = new ArrayList<>();
+
+        mEquipments.add(new Equipment("Cahier d'anglais", "01 23 45 67"));
 
         /*mSubjects.add(new Subject("Maths", "#00B81C", this));//0
         mSubjects.add(new Subject("Anglais", "#CF3838", this));//1
@@ -95,6 +99,11 @@ public class Timetable {
         saveTimetable();
     }
 
+    public void addEquipment(Equipment equipment)
+    {
+        mEquipments.add(equipment);
+    }
+
     public void deleteSubject(int index)
     {
         Subject subject = mSubjects.get(index);
@@ -133,6 +142,16 @@ public class Timetable {
     public ArrayList<Subject> getSubjects()
     {
         return mSubjects;
+    }
+
+    public ArrayList<Equipment> getEquipments()
+    {
+        return mEquipments;
+    }
+
+    public Equipment getEquipment(int index)
+    {
+        return mEquipments.get(index);
     }
 
     public String[] getSubjectNames()

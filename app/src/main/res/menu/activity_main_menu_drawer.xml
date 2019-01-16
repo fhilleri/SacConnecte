@@ -24,6 +24,12 @@
                     android:title="Matières"
                     android:icon="@drawable/ic_school_black_24dp"/>
 
+                <item
+                    android:id="@+id/activity_main_drawer_equipment"
+                    android:title="Materiel"
+                    android:icon="@drawable/ic_style_black_24dp"/>
+
+
             </group>
         </menu>
     </item>

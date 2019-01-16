@@ -17,7 +17,8 @@ import android.widget.ListView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SubjectFragment extends Fragment implements NewSubjectDialogFragment.NewEquipmentDialogListener {
+@SuppressLint("ValidFragment")
+public class EquipmentFragment extends Fragment implements NewEquipmentDialogFragment.NewEquipmentDialogListener {
 
     private View mView;
     private Timetable mTimetable;
@@ -29,16 +30,14 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
     private Button editSubjectButton;
     private Button deleteSubjectButton;
 
-    public static SubjectFragment newInstance(Timetable timetable) {
-        return (new SubjectFragment(timetable));
+    public static EquipmentFragment newInstance(Timetable timetable) {
+
+        return (new EquipmentFragment(timetable));
     }
 
-    public SubjectFragment() {
-        // Required empty public constructor
-    }
+    public EquipmentFragment() {}
 
-    @SuppressLint("ValidFragment")
-    public SubjectFragment(Timetable timetable) {
+    public EquipmentFragment(Timetable timetable) {
         mTimetable = timetable;
     }
 
@@ -47,7 +46,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_subject, container, false);
+        mView = inflater.inflate(R.layout.fragment_equipment, container, false);
         configureListView();
         configureButtons();
         return mView;
@@ -56,7 +55,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
 
     private void configureButtons()
     {
-        newSubjectButton = mView.findViewById(R.id.fragment_subject_button_new);
+        newSubjectButton = mView.findViewById(R.id.fragment_equipment_button_new);
         newSubjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +63,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
             }
         });
 
-        deleteSubjectButton = mView.findViewById(R.id.fragment_subject_button_delete);
+        deleteSubjectButton = mView.findViewById(R.id.fragment_equipment_button_delete);
         deleteSubjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +73,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
             }
         });
 
-        editSubjectButton = mView.findViewById(R.id.fragment_subject_button_edit);
+        editSubjectButton = mView.findViewById(R.id.fragment_equipment_button_edit);
         editSubjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,9 +93,9 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
     private void configureListView()
     {
         //Get ViewPager from layout
-        ListView listView = (ListView)mView.findViewById(R.id.fragment_subject_list_view);
+        ListView listView = (ListView)mView.findViewById(R.id.fragment_equipment_list_view);
         //Set Adapter DayPageAdapter and glue it together
-        listView.setAdapter(new SubjectAdapter(mTimetable, getContext()));
+        listView.setAdapter(new EquipmentAdapter(mTimetable, getContext()));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -110,23 +109,24 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
 
     private void newSubject()
     {
-        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, null, mTimetable);
-        newSubjectDialogFragment.show(getFragmentManager(), "newSubject");
+        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, null, mTimetable);
+        newEquipmentDialogFragment.show(getFragmentManager(), "newSubject");
     }
 
     private void editSubject(int index)
     {
-        DialogFragment newSubjectDialogFragment = new NewSubjectDialogFragment(this, mTimetable.getSubject(index), mTimetable);
-        newSubjectDialogFragment.show(getFragmentManager(), "editSubject");
+        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, mTimetable.getEquipment(index), mTimetable);
+        newEquipmentDialogFragment.show(getFragmentManager(), "editSubject");
     }
 
-    //Implemente l'interface de communication avec la boîte de dialogue pour récupérer le nouveau Subject
+    //Implemente l'interface de communication avec la boîte de dialogue pour récupérer le nouveau Equipment
     @Override
-    public void onDialogPositiveClick(Subject newSubject) {
-        if (newSubject != null) mTimetable.addSubject(newSubject);
+    public void onDialogPositiveClick(Equipment newEquipment) {
+        if (newEquipment != null) mTimetable.addEquipment(newEquipment);
         configureListView();
 
         onEditMode = false;
         refreshButtonColor();
     }
+
 }
