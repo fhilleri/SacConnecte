@@ -7,10 +7,15 @@ import android.content.DialogInterface;
 import android.icu.text.TimeZoneFormat;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class NewSubjectDialogFragment extends DialogFragment {
 
@@ -30,6 +35,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     View mView;
     EditText mName;
     EditText mColor;
+    ListView mListView;
     Timetable mTimetable;
     public NewSubjectDialogFragment() {}
 
@@ -76,6 +82,8 @@ public class NewSubjectDialogFragment extends DialogFragment {
         mName = mView.findViewById(R.id.dialog_fragment_subject_name);
         mColor = mView.findViewById(R.id.dialog_fragment_subject_color);
 
+        configureListView();
+
         if (editing) importSubjectToEdit();
 
         return builder.create();
@@ -87,16 +95,38 @@ public class NewSubjectDialogFragment extends DialogFragment {
         return true;
     }
 
+    private void configureListView()
+    {
+        mListView = mView.findViewById(R.id.dialog_fragment_subject_listView);
+        String[] equipmentNames = mTimetable.getEquipmentNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, equipmentNames);
+        mListView.setAdapter(adapter);
+    }
+
     private void importSubjectToEdit()
     {
         mName.setText(mSubjectToEdit.getName());
         mColor.setText(mSubjectToEdit.getColor());
+        ArrayList<Equipment> subjectEquipments = mSubjectToEdit.getEquipments();
+        for (int i=0; i<subjectEquipments.size(); i++)
+        {
+
+        }
     }
 
     private void editSubject()
     {
         mSubjectToEdit.setName(mName.getText().toString());
         mSubjectToEdit.setColor(mColor.getText().toString());
+
+        ArrayList<Equipment> equipments = new ArrayList<>();
+        SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
+        for (int i=0; i<mListView.getCheckedItemCount(); i++)
+        {
+            if (sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
+        }
+        mSubjectToEdit.setEquipments(equipments);
+
         mListener.onDialogPositiveClick(null);
     }
 
@@ -104,7 +134,15 @@ public class NewSubjectDialogFragment extends DialogFragment {
     {
         String name = mName.getText().toString();
         String color = mColor.getText().toString();
-        Subject newSubject = new Subject(name, color, mTimetable);
+
+        ArrayList<Equipment> equipments = new ArrayList<>();
+        SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
+        for (int i=0; i<mListView.getCheckedItemCount(); i++)
+        {
+            if (sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
+        }
+
+        Subject newSubject = new Subject(name, color, equipments, mTimetable);
         mListener.onDialogPositiveClick(newSubject);
     }
 

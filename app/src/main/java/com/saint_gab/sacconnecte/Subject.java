@@ -10,6 +10,7 @@ public class Subject {
     private String mName;
     private String mColor;
     private ArrayList<Lesson> mLessons;
+    private ArrayList<Equipment> mEquipments;
 
     private Timetable mTimetable;
 
@@ -23,9 +24,10 @@ public class Subject {
         mLessons = new ArrayList<>();
     }
 
-    public Subject(String name, String color, Timetable timetable)
+    public Subject(String name, String color, ArrayList<Equipment> equipments, Timetable timetable)
     {
         mTimetable = timetable;
+        mEquipments = equipments;
         mName = name;
         mColor = color;
 
@@ -76,5 +78,15 @@ public class Subject {
     public void setColor(String color) {
         mColor = color;
         mTimetable.saveTimetable();
+    }
+
+    public ArrayList<Equipment> getEquipments()
+    {
+        return mEquipments;
+    }
+
+    public void setEquipments(ArrayList<Equipment> equipments)
+    {
+        mEquipments = equipments;
     }
 }

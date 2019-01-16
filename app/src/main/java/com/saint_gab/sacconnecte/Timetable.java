@@ -154,6 +154,11 @@ public class Timetable {
         return mEquipments.get(index);
     }
 
+    public int getIndexOfEquipment(Equipment equipment)
+    {
+        return mEquipments.indexOf(equipment);
+    }
+
     public String[] getSubjectNames()
     {
         String[] subjectNames = new String[mSubjects.size()];
@@ -162,6 +167,16 @@ public class Timetable {
             subjectNames[i] = mSubjects.get(i).getName();
         }
         return subjectNames;
+    }
+
+    public String[] getEquipmentNames()
+    {
+        String[] equipmentNames = new String[mEquipments.size()];
+        for (int i=0; i<mEquipments.size(); i++)
+        {
+            equipmentNames[i] = mEquipments.get(i).getName();
+        }
+        return equipmentNames;
     }
 
     public Subject getSubject(int index) { return mSubjects.get(index); }
