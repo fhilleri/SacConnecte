@@ -59,8 +59,8 @@ public class LessonAdapter extends ArrayAdapter<Lesson>  {
         }
 
         viewHolder.Name.setText(lesson.getName());
-        viewHolder.StartTime.setText(lesson.getStartTime());
-        viewHolder.EndTime.setText(lesson.getEndTime());
+        viewHolder.StartTime.setText(lesson.getStartTime().toString());
+        viewHolder.EndTime.setText(lesson.getEndTime().toString());
         result.setBackgroundColor(Color.parseColor(lesson.getColor()));
 
         return result;

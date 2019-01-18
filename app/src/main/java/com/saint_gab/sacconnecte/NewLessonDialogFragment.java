@@ -3,14 +3,17 @@ package com.saint_gab.sacconnecte;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
@@ -23,8 +26,8 @@ public class NewLessonDialogFragment extends DialogFragment {
     private Timetable mTimetable;
 
     private Spinner mSpinner;
-    private EditText mStartTime;
-    private EditText mEndTime;
+    private TimePicker mStartTime;
+    private TimePicker mEndTime;
 
     private boolean editing;
 
@@ -60,37 +63,45 @@ public class NewLessonDialogFragment extends DialogFragment {
                 } else  {
                     Toast.makeText(getContext(), "Impossible de créer le cours", Toast.LENGTH_SHORT).show();
                 }
-                
             }
         });
         builder.setNegativeButton("Annuler", null);
 
         configureSpinner();
-
-        mStartTime = mView.findViewById(R.id.dialog_fragment_new_lesson_time_start);
-        mEndTime = mView.findViewById(R.id.dialog_fragment_new_lesson_time_end);
+        configureTimePickers();
 
         if (editing) importLesson();
 
         return builder.create();
     }
+
+    private void configureTimePickers()
+    {
+        mStartTime = mView.findViewById(R.id.dialog_fragment_new_lesson_time_start);
+        mEndTime = mView.findViewById(R.id.dialog_fragment_new_lesson_time_end);
+
+        mStartTime.setIs24HourView(true);
+        mEndTime.setIs24HourView(true);
+    }
     
     private boolean verifyContent()
     {
-        boolean result;
+        /*boolean result;
         result = (
             !mStartTime.getText().toString().isEmpty()
             && !mEndTime.getText().toString().isEmpty());
-        
-        return result;
+        */
+        return true;
     }
 
     private void importLesson()
     {
         int index = mTimetable.getSubjectIndex(mLessonToEdit.getSubject());
         mSpinner.setSelection(index);
-        mStartTime.setText(mLessonToEdit.getStartTime());
-        mEndTime.setText(mLessonToEdit.getEndTime());
+        mStartTime.setHour(mLessonToEdit.getStartTime().getHour());
+        mStartTime.setMinute(mLessonToEdit.getStartTime().getMinute());
+        mEndTime.setHour(mLessonToEdit.getEndTime().getHour());
+        mEndTime.setMinute(mLessonToEdit.getEndTime().getMinute());
     }
 
     private void configureSpinner()
@@ -105,16 +116,16 @@ public class NewLessonDialogFragment extends DialogFragment {
     {
         Subject subject = mTimetable.getSubject(mSpinner.getSelectedItemPosition());
         mLessonToEdit.setSubject(subject);
-        mLessonToEdit.setStartTime(mStartTime.getText().toString());
-        mLessonToEdit.setEndTime(mEndTime.getText().toString());
+        mLessonToEdit.setStartTime(new Time(mStartTime.getHour(), mStartTime.getMinute()));
+        mLessonToEdit.setEndTime(new Time(mEndTime.getHour(), mEndTime.getMinute()));
         mListener.onDialogPositiveClick(null);
     }
 
     private void createLesson()
     {
         Subject subject = mTimetable.getSubject(mSpinner.getSelectedItemPosition());
-        String startTime = mStartTime.getText().toString();
-        String endTime = mEndTime.getText().toString();
+        Time startTime = new Time(mStartTime.getHour(), mStartTime.getMinute());
+        Time endTime = new Time(mEndTime.getHour(), mEndTime.getMinute());
         Lesson newLesson = new Lesson(subject, startTime, endTime);
         mListener.onDialogPositiveClick(newLesson);
     }

@@ -21,6 +21,16 @@ public class Subject {
         mName = arguments[0];
         mColor = arguments[1];
 
+        if (arguments.length > 2)
+        {
+            String[] equipmentsStr = arguments[2].split(",");
+            mEquipments = new ArrayList<>();
+            for (int i=0; i<equipmentsStr.length; i++)
+            {
+                mEquipments.add(mTimetable.getEquipment(Integer.decode(equipmentsStr[i])));
+            }
+        }
+
         mLessons = new ArrayList<>();
     }
 
@@ -67,7 +77,6 @@ public class Subject {
 
     public void setName(String name) {
         mName = name;
-        mTimetable.saveTimetable();
     }
 
     public String getColor()
@@ -77,7 +86,6 @@ public class Subject {
 
     public void setColor(String color) {
         mColor = color;
-        mTimetable.saveTimetable();
     }
 
     public ArrayList<Equipment> getEquipments()

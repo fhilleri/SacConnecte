@@ -123,6 +123,7 @@ public class EquipmentFragment extends Fragment implements NewEquipmentDialogFra
     @Override
     public void onDialogPositiveClick(Equipment newEquipment) {
         if (newEquipment != null) mTimetable.addEquipment(newEquipment);
+        mTimetable.saveTimetable();
         configureListView();
 
         onEditMode = false;

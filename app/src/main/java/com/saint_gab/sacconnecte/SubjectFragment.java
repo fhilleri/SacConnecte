@@ -124,6 +124,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
     @Override
     public void onDialogPositiveClick(Subject newSubject) {
         if (newSubject != null) mTimetable.addSubject(newSubject);
+        mTimetable.saveTimetable();
         configureListView();
 
         onEditMode = false;

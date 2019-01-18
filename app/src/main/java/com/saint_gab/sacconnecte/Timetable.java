@@ -36,54 +36,8 @@ public class Timetable {
         mSubjects = new ArrayList<>();
         mEquipments = new ArrayList<>();
 
-        mEquipments.add(new Equipment("Cahier d'anglais", "01 23 45 67"));
+        //initializeTimetable();
 
-        /*mSubjects.add(new Subject("Maths", "#00B81C", this));//0
-        mSubjects.add(new Subject("Anglais", "#CF3838", this));//1
-        mSubjects.add(new Subject("Physique", "#b3b3b3", this));//2
-        mSubjects.add(new Subject("SIN", "#8ce6ff", this));//3
-        mSubjects.add(new Subject("Etude", "#ffffff", this));//4
-        mSubjects.add(new Subject("Devoir", "#8b63e0", this));//5
-        mSubjects.add(new Subject("EPS", "#578ff7", this));//6
-        mSubjects.add(new Subject("Espagnol", "#fc9d28", this));//7
-        mSubjects.add(new Subject("ETT LV1", "#ccff33", this));//8
-        mSubjects.add(new Subject("ETT", "#ff0000", this));//9
-        mSubjects.add(new Subject("Philo", "#ffdbff", this));//10
-
-        mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35"));
-        mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35"));
-        mDays[0].add(new Lesson(mSubjects.get(7), "15h50", "16h45"));
-        mDays[0].add(new Lesson(mSubjects.get(8), "16h45", "17h40"));
-
-        mDays[1].add(new Lesson(mSubjects.get(6), "8h30", "10h20"));
-        mDays[1].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
-        mDays[1].add(new Lesson(mSubjects.get(1), "13h45", "14h40"));
-        mDays[1].add(new Lesson(mSubjects.get(0), "14h40", "15h35"));
-        mDays[1].add(new Lesson(mSubjects.get(4), "15h50", "17h40"));
-
-
-        mDays[2].add(new Lesson(mSubjects.get(3), "8h30", "10h40"));
-        mDays[2].add(new Lesson(mSubjects.get(1), "10h40", "12h35"));
-        mDays[2].add(new Lesson(mSubjects.get(9), "13h45", "14h40"));
-        mDays[2].add(new Lesson(mSubjects.get(10), "14h40", "16h45"));
-        mDays[2].add(new Lesson(mSubjects.get(0), "16h45", "17h40"));
-
-
-        mDays[3].add(new Lesson(mSubjects.get(2), "8h30", "10h20"));
-        mDays[3].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
-        mDays[3].add(new Lesson(mSubjects.get(0), "13h45", "14h40"));
-        mDays[3].add(new Lesson(mSubjects.get(7), "14h40", "15h35"));
-        mDays[3].add(new Lesson(mSubjects.get(4), "15h50", "16h45"));
-        mDays[3].add(new Lesson(mSubjects.get(2), "16h45", "17h40"));
-
-
-        mDays[4].add(new Lesson(mSubjects.get(5), "8h30", "10h20"));
-        mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40"));
-        mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35"));
-        mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25"));
-
-
-        saveTimetable();*/
         loadTimetable();
     }
 
@@ -102,6 +56,7 @@ public class Timetable {
     public void addEquipment(Equipment equipment)
     {
         mEquipments.add(equipment);
+        saveTimetable();
     }
 
     public void deleteSubject(int index)
@@ -182,23 +137,58 @@ public class Timetable {
     public Subject getSubject(int index) { return mSubjects.get(index); }
 
     //Création d'un fichier CSV pour sauvegarder l'emploi du temps
-    public void saveTimetable()
-    {
-        String subjectsStr = "";//Premiere ligne du fichier csv qui stocke toutes les matières
-        String lessonsStr = "";//Seconde ligne du fichier csv qui stocke tout les cours
+    public void saveTimetable() {
+        String equipmentStr = "";//Première ligne du fichier csv qui stock tous les équipments
+        String subjectsStr = "";//Seconde ligne du fichier csv qui stocke toutes les matières
+        String lessonsStr = "";//Troisième ligne du fichier csv qui stocke tous les cours
         String total = "";
 
-        //Stockage des matières : ";Nom:Couleur;"
-        for (int i=0; i < mSubjects.size(); i++)
-        {
+        equipmentStr = getEquipmentStr();
+        subjectsStr = getSubjectsStr();
+        lessonsStr = getLessonStr();
+
+
+        total = equipmentStr + "\n" + subjectsStr + "\n" + lessonsStr;
+        Log.i("Timetable", "saveTimetable: " + total);
+        try {
+
+            FileOutputStream out = mContext.openFileOutput("timetable.csv", mContext.MODE_PRIVATE);
+
+            byte[] fileContent = total.getBytes();
+            out.write(fileContent);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Stockage des matières : ";Nom:Couleur;equipment1,equipment2"
+    private String getSubjectsStr()
+    {
+        String subjectsStr = "";
+        for (int i = 0; i < mSubjects.size(); i++) {
             subjectsStr += mSubjects.get(i).getName();
             subjectsStr += ":";
             subjectsStr += mSubjects.get(i).getColor();
-            if(i != mSubjects.size() - 1)   subjectsStr += ";";
-        }
+            ArrayList<Equipment> equipments = mSubjects.get(i).getEquipments();
+            if (equipments != null) {
+                subjectsStr += ":";
+                for (int j = 0; j < equipments.size(); j++) {
+                    subjectsStr += mEquipments.indexOf(equipments.get(j));
+                    if (j < equipments.size() - 1) subjectsStr += ",";
+                }
 
-        //Stockage des cours : ";IndexMatière:HeureDebut:HeureFin;"
-        //Séparation des jours : "/"
+            }
+            if (i != mSubjects.size() - 1) subjectsStr += ";";
+        }
+        return subjectsStr;
+    }
+
+    //Stockage des cours : ";IndexMatière:HeureDebut:HeureFin;"
+    //Séparation des jours : "/"
+    private String getLessonStr()
+    {
+        String lessonsStr = "";
         for (int i=0; i < mDays.length; i++)
         {
             for (int j=0; j < mDays[i].size(); j++)
@@ -213,25 +203,28 @@ public class Timetable {
 
             if (i != mDays.length -1) lessonsStr += "/";
         }
+        return lessonsStr;
+    }
 
-        total = subjectsStr + "\n" + lessonsStr;
-        Log.i("Timetable", "saveTimetable: " + total);
-        try {
+    private String getEquipmentStr()
+    {
+        String equipmentStr = "";
 
-            FileOutputStream out = mContext.openFileOutput("timetable.txt", mContext.MODE_PRIVATE);
-
-            byte[] fileContent = total.getBytes();
-            out.write(fileContent);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i=0; i<mEquipments.size(); i++)
+        {
+            equipmentStr += mEquipments.get(i).getName();
+            equipmentStr += ":";
+            equipmentStr += mEquipments.get(i).getId();
+            if (i < mEquipments.size() - 1) equipmentStr += ";";
         }
+
+        return equipmentStr;
     }
 
     private void loadTimetable()
     {
         try {
-            FileInputStream in = mContext.openFileInput("timetable.txt");
+            FileInputStream in = mContext.openFileInput("timetable.csv");
 
 
             byte[] fileContent = new byte[in.available()];
@@ -251,14 +244,24 @@ public class Timetable {
             //lines[0] = subjects lines[1] = lessons
             String[] lines = fileContentStr.split("\n");
 
-            loadSubjects(lines[0]);
+            loadEquipment(lines[0]);
+            Log.i("Timetable", "loadTimetable: equipment loaded");
+            loadSubjects(lines[1]);
             Log.i("Timetable", "loadTimetable: subjects loaded");
-            loadDays(lines[1]);
+            loadDays(lines[2]);
             Log.i("Timetable", "loadTimetable: lessons loaded");
-
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void loadEquipment(String str)
+    {
+        String[] equipmentsStr = str.split(";");
+        for (int i=0; i<equipmentsStr.length; i++)
+        {
+            mEquipments.add(new Equipment(equipmentsStr[i]));
         }
     }
 
@@ -297,8 +300,59 @@ public class Timetable {
         }
     }
 
-    private void initializeTimetable()//Initialise l'emploi du temps dans le cas d'un premier lancement de l'application
+    private void initializeTimetable()
     {
+        mEquipments.add(new Equipment("Cahier d'anglais", "01 23 45 67"));
+        mEquipments.add(new Equipment("Cahier de maths", "01 23 45 67"));
+        mEquipments.add(new Equipment("Livre de maths", "01 23 45 67"));
 
+        ArrayList<Equipment> mathsEquipments = new ArrayList<>();
+        mathsEquipments.add(mEquipments.get(1));
+        mathsEquipments.add(mEquipments.get(2));
+        mSubjects.add(new Subject("Maths", "#00B81C", mathsEquipments, this));//0
+        mSubjects.add(new Subject("Anglais", "#CF3838", null, this));//1
+        mSubjects.add(new Subject("Physique", "#b3b3b3", null, this));//2
+        mSubjects.add(new Subject("SIN", "#8ce6ff", null, this));//3
+        mSubjects.add(new Subject("Etude", "#ffffff", null, this));//4
+        mSubjects.add(new Subject("Devoir", "#8b63e0", null, this));//5
+        mSubjects.add(new Subject("EPS", "#578ff7", null, this));//6
+        mSubjects.add(new Subject("Espagnol", "#fc9d28", null, this));//7
+        mSubjects.add(new Subject("ETT LV1", "#ccff33", null, this));//8
+        mSubjects.add(new Subject("ETT", "#ff0000", null, this));//9
+        mSubjects.add(new Subject("Philo", "#ffdbff", null, this));//10
+
+        mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35"));
+        mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35"));
+        mDays[0].add(new Lesson(mSubjects.get(7), "15h50", "16h45"));
+        mDays[0].add(new Lesson(mSubjects.get(8), "16h45", "17h40"));
+
+        mDays[1].add(new Lesson(mSubjects.get(6), "8h30", "10h20"));
+        mDays[1].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
+        mDays[1].add(new Lesson(mSubjects.get(1), "13h45", "14h40"));
+        mDays[1].add(new Lesson(mSubjects.get(0), "14h40", "15h35"));
+        mDays[1].add(new Lesson(mSubjects.get(4), "15h50", "17h40"));
+
+
+        mDays[2].add(new Lesson(mSubjects.get(3), "8h30", "10h40"));
+        mDays[2].add(new Lesson(mSubjects.get(1), "10h40", "12h35"));
+        mDays[2].add(new Lesson(mSubjects.get(9), "13h45", "14h40"));
+        mDays[2].add(new Lesson(mSubjects.get(10), "14h40", "16h45"));
+        mDays[2].add(new Lesson(mSubjects.get(0), "16h45", "17h40"));
+
+
+        mDays[3].add(new Lesson(mSubjects.get(2), "8h30", "10h20"));
+        mDays[3].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
+        mDays[3].add(new Lesson(mSubjects.get(0), "13h45", "14h40"));
+        mDays[3].add(new Lesson(mSubjects.get(7), "14h40", "15h35"));
+        mDays[3].add(new Lesson(mSubjects.get(4), "15h50", "16h45"));
+        mDays[3].add(new Lesson(mSubjects.get(2), "16h45", "17h40"));
+
+
+        mDays[4].add(new Lesson(mSubjects.get(5), "8h30", "10h20"));
+        mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40"));
+        mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35"));
+        mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25"));
+
+        saveTimetable();
     }
 }

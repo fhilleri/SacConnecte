@@ -11,16 +11,42 @@
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"/>
 
-    <EditText
-        android:id="@+id/dialog_fragment_new_lesson_time_start"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Heure de début"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <EditText
-        android:id="@+id/dialog_fragment_new_lesson_time_end"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Heure de début :"/>
+
+        <TimePicker
+            android:id="@+id/dialog_fragment_new_lesson_time_start"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:timePickerMode="spinner"/>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Heure de fin"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Heure de fin :"/>
+
+        <TimePicker
+            android:id="@+id/dialog_fragment_new_lesson_time_end"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:timePickerMode="spinner"/>
+    </LinearLayout>
+
 
 </LinearLayout>

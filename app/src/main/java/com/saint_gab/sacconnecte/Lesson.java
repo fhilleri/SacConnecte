@@ -7,8 +7,8 @@ import javax.security.auth.login.LoginException;
 public class Lesson {
 
     Subject mSubject;
-    String mStartTime;
-    String mEndTime;
+    Time mStartTime;
+    Time mEndTime;
 
     Timetable mTimetable;
 
@@ -19,13 +19,22 @@ public class Lesson {
         String[] arguments = str.split(":");
         Log.i("", "Lesson: subjectIndex = " + arguments[0]);
         mSubject = timetable.getSubject(Integer.decode(arguments[0]));
-        mStartTime = arguments[1];
-        mEndTime = arguments[2];
+        mStartTime = new Time(arguments[1]);
+        mEndTime = new Time(arguments[2]);
 
         mSubject.addLesson(this);
     }
 
     public Lesson(Subject subject, String startTime, String endTime)
+    {
+        mSubject = subject;
+        mStartTime = new Time(startTime);
+        mEndTime = new Time(endTime);
+
+        mSubject.addLesson(this);
+    }
+
+    public Lesson(Subject subject, Time startTime, Time endTime)
     {
         mSubject = subject;
         mStartTime = startTime;
@@ -46,23 +55,23 @@ public class Lesson {
         return mSubject.getName();
     }
 
-    public String getStartTime()
+    public Time getStartTime()
     {
         return mStartTime;
     }
 
-    public void setStartTime(String startTime)
+    public void setStartTime(Time startTime)
     {
         mStartTime = startTime;
         mTimetable.saveTimetable();
     }
 
-    public String getEndTime()
+    public Time getEndTime()
     {
         return mEndTime;
     }
 
-    public void setEndTime(String endTime)
+    public void setEndTime(Time endTime)
     {
         mEndTime = endTime;
         mTimetable.saveTimetable();

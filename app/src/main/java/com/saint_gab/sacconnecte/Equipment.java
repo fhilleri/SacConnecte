@@ -12,6 +12,13 @@ public class Equipment
         mId = id;
     }
 
+    public Equipment(String str)
+    {
+        String[] arguments = str.split(":");
+        mName = arguments[0];
+        mId = arguments[1];
+    }
+
     public String getName()
     {
         return mName;

@@ -103,14 +103,19 @@ public class NewSubjectDialogFragment extends DialogFragment {
         mListView.setAdapter(adapter);
     }
 
+    //Importe les différents attributs de l'équipment dans la boîte de dialogue
     private void importSubjectToEdit()
     {
         mName.setText(mSubjectToEdit.getName());
         mColor.setText(mSubjectToEdit.getColor());
         ArrayList<Equipment> subjectEquipments = mSubjectToEdit.getEquipments();
-        for (int i=0; i<subjectEquipments.size(); i++)
+        if (subjectEquipments != null)
         {
-
+            for (int i=0; i<subjectEquipments.size(); i++)
+            {
+                int index = mTimetable.getIndexOfEquipment(subjectEquipments.get(i));
+                mListView.setItemChecked(i, true);
+            }
         }
     }
 
