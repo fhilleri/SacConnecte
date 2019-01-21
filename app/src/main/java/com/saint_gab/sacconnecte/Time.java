@@ -28,6 +28,8 @@ public class Time {
         return mMinute;
     }
 
+    public int getTotalMinute() {return mMinute + mHour * 60;}
+
     public String toString()
     {
         return mHour + "h" + mMinute;

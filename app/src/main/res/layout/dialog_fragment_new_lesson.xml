@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="20dp">
 
     <Spinner
         android:id="@+id/dialog_fragment_new_lesson_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"/>
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="200dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,13 +22,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Heure de début :"/>
+            android:text="Heure de début :"
+            android:textColor="@android:color/black"
+            android:paddingLeft="8dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_weight="1"/>
 
         <TimePicker
             android:id="@+id/dialog_fragment_new_lesson_time_start"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:timePickerMode="spinner"/>
+            android:layout_height="150dp"
+            android:timePickerMode="spinner" />
     </LinearLayout>
 
 
@@ -39,13 +48,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Heure de fin :"/>
+            android:text="Heure de fin :"
+            android:textColor="@android:color/black"
+            android:paddingLeft="8dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_weight="1"/>
 
         <TimePicker
             android:id="@+id/dialog_fragment_new_lesson_time_end"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:timePickerMode="spinner"/>
+            android:layout_height="150dp"
+            android:timePickerMode="spinner" />
     </LinearLayout>
 
 

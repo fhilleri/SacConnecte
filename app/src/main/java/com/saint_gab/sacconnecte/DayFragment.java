@@ -97,6 +97,7 @@ public class DayFragment extends Fragment {
     public void delete(int index)
     {
         mTimetable.deleteLesson(mIndex, index);
+        lessons = mTimetable.getLessons(index);
         adapter = new LessonAdapter(lessons, getContext());
         listView.setAdapter(adapter);
     }

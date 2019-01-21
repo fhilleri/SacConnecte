@@ -126,7 +126,7 @@ public class NewLessonDialogFragment extends DialogFragment {
         Subject subject = mTimetable.getSubject(mSpinner.getSelectedItemPosition());
         Time startTime = new Time(mStartTime.getHour(), mStartTime.getMinute());
         Time endTime = new Time(mEndTime.getHour(), mEndTime.getMinute());
-        Lesson newLesson = new Lesson(subject, startTime, endTime);
+        Lesson newLesson = new Lesson(subject, startTime, endTime, mTimetable);
         mListener.onDialogPositiveClick(newLesson);
     }
 

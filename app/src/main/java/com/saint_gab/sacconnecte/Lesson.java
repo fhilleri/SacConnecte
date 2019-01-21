@@ -25,8 +25,9 @@ public class Lesson {
         mSubject.addLesson(this);
     }
 
-    public Lesson(Subject subject, String startTime, String endTime)
+    public Lesson(Subject subject, String startTime, String endTime, Timetable timetable)
     {
+        mTimetable = timetable;
         mSubject = subject;
         mStartTime = new Time(startTime);
         mEndTime = new Time(endTime);
@@ -34,7 +35,7 @@ public class Lesson {
         mSubject.addLesson(this);
     }
 
-    public Lesson(Subject subject, Time startTime, Time endTime)
+    public Lesson(Subject subject, Time startTime, Time endTime, Timetable timetable)
     {
         mSubject = subject;
         mStartTime = startTime;

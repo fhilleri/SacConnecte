@@ -34,4 +34,19 @@
         </menu>
     </item>
 
+    <item android:title="Configuration">
+
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:icon="@drawable/ic_bluetooth_black_24dp"
+                    android:id="@+id/activity_main_drawer_bluetooth"
+                    android:title="Bluetooth"/>
+
+            </group>
+        </menu>
+
+    </item>
+
 </menu>

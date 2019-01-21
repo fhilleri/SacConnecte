@@ -53,6 +53,30 @@ public class Timetable {
         saveTimetable();
     }
 
+    private void sortLessons()
+    {
+        for (int i=0; i<mDays.length; i++)
+        {
+            ArrayList<Lesson> newLessonArray = new ArrayList<>();
+            while(mDays[i].size() > 0)
+            {
+                int lowestTime = 99999, lowestTimeIndex = 0;
+                for (int j=0; j<mDays[i].size(); j++)
+                {
+
+                    if (mDays[i].get(j).getStartTime().getTotalMinute() < lowestTime)
+                    {
+                        lowestTimeIndex = j;
+                        lowestTime = mDays[i].get(j).getStartTime().getTotalMinute();
+                    }
+                }
+                newLessonArray.add(mDays[i].get(lowestTimeIndex));
+                mDays[i].remove(lowestTimeIndex);
+            }
+            mDays[i] = newLessonArray;
+        }
+    }
+
     public void addEquipment(Equipment equipment)
     {
         mEquipments.add(equipment);
@@ -138,6 +162,8 @@ public class Timetable {
 
     //Création d'un fichier CSV pour sauvegarder l'emploi du temps
     public void saveTimetable() {
+        sortLessons();
+
         String equipmentStr = "";//Première ligne du fichier csv qui stock tous les équipments
         String subjectsStr = "";//Seconde ligne du fichier csv qui stocke toutes les matières
         String lessonsStr = "";//Troisième ligne du fichier csv qui stocke tous les cours
@@ -321,37 +347,37 @@ public class Timetable {
         mSubjects.add(new Subject("ETT", "#ff0000", null, this));//9
         mSubjects.add(new Subject("Philo", "#ffdbff", null, this));//10
 
-        mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35"));
-        mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35"));
-        mDays[0].add(new Lesson(mSubjects.get(7), "15h50", "16h45"));
-        mDays[0].add(new Lesson(mSubjects.get(8), "16h45", "17h40"));
+        mDays[0].add(new Lesson(mSubjects.get(3), "9h25", "12h35", this));
+        mDays[0].add(new Lesson(mSubjects.get(4), "13h45", "15h35", this));
+        mDays[0].add(new Lesson(mSubjects.get(7), "15h50", "16h45", this));
+        mDays[0].add(new Lesson(mSubjects.get(8), "16h45", "17h40", this));
 
-        mDays[1].add(new Lesson(mSubjects.get(6), "8h30", "10h20"));
-        mDays[1].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
-        mDays[1].add(new Lesson(mSubjects.get(1), "13h45", "14h40"));
-        mDays[1].add(new Lesson(mSubjects.get(0), "14h40", "15h35"));
-        mDays[1].add(new Lesson(mSubjects.get(4), "15h50", "17h40"));
-
-
-        mDays[2].add(new Lesson(mSubjects.get(3), "8h30", "10h40"));
-        mDays[2].add(new Lesson(mSubjects.get(1), "10h40", "12h35"));
-        mDays[2].add(new Lesson(mSubjects.get(9), "13h45", "14h40"));
-        mDays[2].add(new Lesson(mSubjects.get(10), "14h40", "16h45"));
-        mDays[2].add(new Lesson(mSubjects.get(0), "16h45", "17h40"));
+        mDays[1].add(new Lesson(mSubjects.get(6), "8h30", "10h20", this));
+        mDays[1].add(new Lesson(mSubjects.get(9), "10h45", "12h35", this));
+        mDays[1].add(new Lesson(mSubjects.get(1), "13h45", "14h40", this));
+        mDays[1].add(new Lesson(mSubjects.get(0), "14h40", "15h35", this));
+        mDays[1].add(new Lesson(mSubjects.get(4), "15h50", "17h40", this));
 
 
-        mDays[3].add(new Lesson(mSubjects.get(2), "8h30", "10h20"));
-        mDays[3].add(new Lesson(mSubjects.get(9), "10h45", "12h35"));
-        mDays[3].add(new Lesson(mSubjects.get(0), "13h45", "14h40"));
-        mDays[3].add(new Lesson(mSubjects.get(7), "14h40", "15h35"));
-        mDays[3].add(new Lesson(mSubjects.get(4), "15h50", "16h45"));
-        mDays[3].add(new Lesson(mSubjects.get(2), "16h45", "17h40"));
+        mDays[2].add(new Lesson(mSubjects.get(3), "8h30", "10h40", this));
+        mDays[2].add(new Lesson(mSubjects.get(1), "10h40", "12h35", this));
+        mDays[2].add(new Lesson(mSubjects.get(9), "13h45", "14h40", this));
+        mDays[2].add(new Lesson(mSubjects.get(10), "14h40", "16h45", this));
+        mDays[2].add(new Lesson(mSubjects.get(0), "16h45", "17h40", this));
 
 
-        mDays[4].add(new Lesson(mSubjects.get(5), "8h30", "10h20"));
-        mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40"));
-        mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35"));
-        mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25"));
+        mDays[3].add(new Lesson(mSubjects.get(2), "8h30", "10h20", this));
+        mDays[3].add(new Lesson(mSubjects.get(9), "10h45", "12h35", this));
+        mDays[3].add(new Lesson(mSubjects.get(0), "13h45", "14h40", this));
+        mDays[3].add(new Lesson(mSubjects.get(7), "14h40", "15h35", this));
+        mDays[3].add(new Lesson(mSubjects.get(4), "15h50", "16h45", this));
+        mDays[3].add(new Lesson(mSubjects.get(2), "16h45", "17h40", this));
+
+
+        mDays[4].add(new Lesson(mSubjects.get(5), "8h30", "10h20", this));
+        mDays[4].add(new Lesson(mSubjects.get(0), "10h45", "11h40", this));
+        mDays[4].add(new Lesson(mSubjects.get(2), "10h40", "12h35", this));
+        mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25", this));
 
         saveTimetable();
     }
