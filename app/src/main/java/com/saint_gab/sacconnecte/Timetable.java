@@ -133,6 +133,14 @@ public class Timetable {
         return mEquipments.get(index);
     }
 
+    public String getEquipmentNameFromID(String id)
+    {
+        for (int i=0; i< mEquipments.size(); i++)
+        {
+            //if (mEquipments.get(i))
+        }
+    }
+
     public int getIndexOfEquipment(Equipment equipment)
     {
         return mEquipments.indexOf(equipment);

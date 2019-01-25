@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragmentTimetable;
     private Fragment fragmentSubject;
     private Fragment fragmentEquipment;
+    private Fragment fragmentBluetooth;
 
     //FOR DATAS
     private static final int FRAGMENT_BACKPACK = 0;
@@ -76,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_equipment :
                 showEquipmentFragment();
                 break;
+            case R.id.activity_main_drawer_bluetooth :
+                showBluetoothFragment();
+                break;
             default:
                 break;
         }
@@ -114,6 +118,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setTitle("Materiel");
         if (this.fragmentEquipment == null) this.fragmentEquipment = EquipmentFragment.newInstance(mTimetable);
         this.startTransactionFragment(this.fragmentEquipment);
+    }
+
+    private void showBluetoothFragment()
+    {
+        toolbar.setTitle("Bluetooth");
+        if (this.fragmentBluetooth == null) this.fragmentBluetooth = BluetoothFragment.newInstance();
+        this.startTransactionFragment(this.fragmentBluetooth);
     }
 
     // 3 - Generic method that will replace and show a fragment inside the MainActivity Frame Layout
