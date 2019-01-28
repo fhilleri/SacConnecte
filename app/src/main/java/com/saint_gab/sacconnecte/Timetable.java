@@ -133,12 +133,13 @@ public class Timetable {
         return mEquipments.get(index);
     }
 
-    public String getEquipmentNameFromID(String id)
+    public String getEquipmentNameFromID(String id)//Retourne null si aucun materiel trouvé
     {
         for (int i=0; i< mEquipments.size(); i++)
         {
-            //if (mEquipments.get(i))
+            if (mEquipments.get(i).getId() == id) return mEquipments.get(i).getName();
         }
+        return null;
     }
 
     public int getIndexOfEquipment(Equipment equipment)

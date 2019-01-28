@@ -1,6 +1,7 @@
 package com.saint_gab.sacconnecte;
 
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -11,7 +12,6 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +38,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class BluetoothFragment extends Fragment {
 
     private View mView;
@@ -66,14 +67,23 @@ public class BluetoothFragment extends Fragment {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
 
-    public static BluetoothFragment newInstance() {
-        return (new BluetoothFragment());
+    public static BluetoothFragment newInstance(BackpackContent backpackContent) {
+        return (new BluetoothFragment(backpackContent));
     }
 
+    @SuppressLint("ValidFragment")
+    public BluetoothFragment(BackpackContent backpackContent)
+    {
+        mBackpackContent = backpackContent;
+    }
+
+    private BackpackContent mBackpackContent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mBackpackContent.setContent("Livre d'anglais/Cahier de maths/Classeur d'ETT");
 
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_bluetooth, container, false);
@@ -103,6 +113,7 @@ public class BluetoothFragment extends Fragment {
                         e.printStackTrace();
                     }
                     mReadBuffer.setText(readMessage);
+                    mBackpackContent.setContent(readMessage);
                 }
 
                 if (msg.what == CONNECTING_STATUS) {

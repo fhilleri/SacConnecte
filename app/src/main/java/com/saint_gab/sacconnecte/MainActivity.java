@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //FOR TIMETABLE
     private Timetable mTimetable;
 
+    //FOR BACKPACK CONTENT
+    private BackpackContent mBackpackContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureTimeTable();
+        this.configureBackpackContent();
         showBackpackFragment();//Affichage de la page backpack au lancement de l'appli
     }
 
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showBackpackFragment()
     {
         toolbar.setTitle("Sac à dos");
-        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance();
+        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent);
         this.startTransactionFragment(this.fragmentBackpack);
     }
 
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showBluetoothFragment()
     {
         toolbar.setTitle("Bluetooth");
-        if (this.fragmentBluetooth == null) this.fragmentBluetooth = BluetoothFragment.newInstance();
+        if (this.fragmentBluetooth == null) this.fragmentBluetooth = BluetoothFragment.newInstance(mBackpackContent);
         this.startTransactionFragment(this.fragmentBluetooth);
     }
 
@@ -168,5 +172,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureTimeTable()
     {
         mTimetable = new Timetable(getApplicationContext());
+    }
+
+    private void configureBackpackContent()
+    {
+        mBackpackContent = new BackpackContent(mTimetable);
     }
 }
