@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,6 +41,7 @@ public class Timetable {
         //initializeTimetable();
 
         loadTimetable();
+        getExpectedEquipments();
     }
 
     public void addSubject(Subject newSubject)
@@ -389,5 +392,13 @@ public class Timetable {
         mDays[4].add(new Lesson(mSubjects.get(3), "13h45", "16h25", this));
 
         saveTimetable();
+    }
+
+    public ArrayList<Equipment> getExpectedEquipments()
+    {
+        Calendar calendar = Calendar.getInstance();
+        Time currentTime = new Time(calendar.get(Calendar.HOUR_OF_DAY ), calendar.get(Calendar.MINUTE));
+        Log.i("Timetable", "getExpectedEquipments: time = " + currentTime.toString());
+        return null;
     }
 }

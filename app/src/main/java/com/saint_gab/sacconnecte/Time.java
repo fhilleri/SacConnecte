@@ -35,4 +35,6 @@ public class Time {
         return mHour + "h" + mMinute;
     }
 
+    //public static bool
+
 }

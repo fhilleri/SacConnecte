@@ -2,6 +2,7 @@ package com.saint_gab.sacconnecte;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,8 +54,11 @@ public class BackpackFragment extends Fragment {
     {
         mListView = mView.findViewById(R.id.fragment_backpack_list_view);
         String[] contentNames = mBackpackContent.getContentStrings();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, contentNames);
-        mListView.setAdapter(adapter);
+        if (contentNames != null)
+        {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, contentNames);
+            mListView.setAdapter(adapter);
+        }
     }
 
 }
