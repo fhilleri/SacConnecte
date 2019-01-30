@@ -59,7 +59,7 @@ public class EquipmentFragment extends Fragment implements NewEquipmentDialogFra
         newSubjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newSubject();
+                newEquipment();
             }
         });
 
@@ -100,20 +100,20 @@ public class EquipmentFragment extends Fragment implements NewEquipmentDialogFra
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (onDeleteMode) mTimetable.deleteSubject(i);
-                if (onEditMode) editSubject(i);
+                if (onDeleteMode) mTimetable.deleteEquipment(i);
+                if (onEditMode) editEquipment(i);
                 configureListView();
             }
         });
     }
 
-    private void newSubject()
+    private void newEquipment()
     {
         DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, null, mTimetable);
         newEquipmentDialogFragment.show(getFragmentManager(), "newSubject");
     }
 
-    private void editSubject(int index)
+    private void editEquipment(int index)
     {
         DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, mTimetable.getEquipment(index), mTimetable);
         newEquipmentDialogFragment.show(getFragmentManager(), "editSubject");

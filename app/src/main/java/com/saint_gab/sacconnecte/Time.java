@@ -35,6 +35,10 @@ public class Time {
         return mHour + "h" + mMinute;
     }
 
-    //public static bool
+
+    public boolean isAfter(Time otherTime)
+    {
+        return (getTotalMinute() > otherTime.getTotalMinute());
+    }
 
 }

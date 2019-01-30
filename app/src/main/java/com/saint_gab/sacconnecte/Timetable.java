@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.security.auth.login.LoginException;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class Timetable {
@@ -83,6 +85,17 @@ public class Timetable {
     public void addEquipment(Equipment equipment)
     {
         mEquipments.add(equipment);
+        saveTimetable();
+    }
+
+    public void deleteEquipment(int index)
+    {
+        Equipment equipment = mEquipments.get(index);
+        for(int i=0; i<mSubjects.size(); i++)
+        {
+            mSubjects.get(i).removeEquipment(equipment);
+        }
+        mEquipments.remove(equipment);
         saveTimetable();
     }
 
@@ -397,8 +410,36 @@ public class Timetable {
     public ArrayList<Equipment> getExpectedEquipments()
     {
         Calendar calendar = Calendar.getInstance();
-        Time currentTime = new Time(calendar.get(Calendar.HOUR_OF_DAY ), calendar.get(Calendar.MINUTE));
+
+        //Time currentTime = new Time(calendar.get(Calendar.HOUR_OF_DAY ), calendar.get(Calendar.MINUTE));
+        Time currentTime = new Time(5, 30);
         Log.i("Timetable", "getExpectedEquipments: time = " + currentTime.toString());
-        return null;
+
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //On passe du début de la semaine du dimanche au lundi
+        //et on passe de 1-7 à 0-6
+        dayOfWeek -= 2;
+        if (dayOfWeek<0) dayOfWeek = 6;
+        Log.i("Timetable", "getExpectedEquipments: day of week = " + dayOfWeek);
+
+        ArrayList<Equipment> expectedEquipments = new ArrayList<>();
+        for (int i=0; i<mDays[dayOfWeek].size(); i++)
+        {
+            if (!mDays[dayOfWeek].get(i).hasBegun(currentTime))
+            {
+                ArrayList<Equipment> equipments = mDays[dayOfWeek].get(i).getSubject().getEquipments();
+                if (equipments != null)
+                {
+                    for (int j = 0; j<equipments.size(); j++)
+                    {
+                        if (!expectedEquipments.contains(equipments.get(j))) expectedEquipments.add(equipments.get(j));
+                    }
+                }
+            }
+        }
+
+        return expectedEquipments;
     }
 }

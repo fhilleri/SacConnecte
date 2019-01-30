@@ -126,9 +126,9 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
         ArrayList<Equipment> equipments = new ArrayList<>();
         SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
-        for (int i=0; i<mListView.getCheckedItemCount(); i++)
+        for (int i=0; i<sparseBooleanArray.size(); i++)
         {
-            if (sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
+            if(sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
         }
         mSubjectToEdit.setEquipments(equipments);
 

@@ -88,4 +88,9 @@ public class Lesson {
         return mSubject;
     }
 
+    public boolean hasBegun(Time currentTime)
+    {
+        return currentTime.isAfter(mStartTime);
+    }
+
 }

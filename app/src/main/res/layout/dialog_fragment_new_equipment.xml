@@ -16,7 +16,7 @@
         android:id="@+id/dialog_fragment_equipment_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Identifiant RFID"
+        android:hint="Identifiant RFID ()"
         android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

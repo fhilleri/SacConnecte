@@ -97,4 +97,9 @@ public class Subject {
     {
         mEquipments = equipments;
     }
+
+    public void removeEquipment(Equipment equipment)
+    {
+        if (mEquipments != null && mEquipments.contains(equipment))    mEquipments.remove(equipment);
+    }
 }

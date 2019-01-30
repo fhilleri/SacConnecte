@@ -22,6 +22,12 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         void onDialogPositiveClick(Equipment newEquipment);
     }
 
+    //Codes d'erreurs
+    static final int CORRECT = 0;
+    static final int EMPTY_EDIT_TEXT = 1;
+    static final int ILLEGAL_ID_CHARACTERS = 2;
+    static final int WRONG_ID_CHARACTER_NUMBER = 3;
+
     Equipment mEquipmentToEdit;//Est nul en cas de création d'equipment
     boolean editing;//Précise si on modifie ou si on créé un subject
 
@@ -64,12 +70,13 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (verifyContent())
+                int errorCode = verifyContent();
+                if (errorCode == CORRECT)
                 {
                     if (editing) editEquipment();
                     else createEquipment();
                 }
-                else Toast.makeText(getContext(), "Impossible de créer le materiel", Toast.LENGTH_SHORT).show();
+                else displayErrors(errorCode);
             }
         });
         builder.setNegativeButton("Annuler", null);
@@ -108,13 +115,35 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         Equipment newEquipment = new Equipment(name, id);
         mListener.onDialogPositiveClick(newEquipment);
     }
-
-    private boolean verifyContent()
+    
+    private void displayErrors(int errorValue)
     {
-        boolean result;
-        result = (
-                !mName.getText().toString().isEmpty()
-                        && !mId.getText().toString().isEmpty());
+        switch(errorValue)
+        {
+            case EMPTY_EDIT_TEXT:
+                Toast.makeText(getContext(), "Les chaines de caractères ne doivent pas être vides", Toast.LENGTH_LONG).show();
+                break;
+            case ILLEGAL_ID_CHARACTERS:
+                Toast.makeText(getContext(), "Les identifiants ne peuvent être constitué que de : {1023456789ABCDEF}", Toast.LENGTH_LONG).show();
+                break;
+            case WRONG_ID_CHARACTER_NUMBER:
+                Toast.makeText(getContext(), "Les identifiants doivent être composé de 12 caractères", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    private int verifyContent()
+    {
+        int result = CORRECT;
+        if (mName.getText().toString().isEmpty()
+            && mId.getText().toString().isEmpty())
+        {
+            result = EMPTY_EDIT_TEXT;
+        }
+        else if(mId.getText().toString().matches("[^0123456789ABCDEF]")) result = ILLEGAL_ID_CHARACTERS;
+        else if(mId.getText().toString().length() != 12) result = WRONG_ID_CHARACTER_NUMBER;
+
+        mId.setText(mId.getText().toString().toUpperCase());
 
         return result;
     }
