@@ -153,7 +153,8 @@ public class Timetable {
     {
         for (int i=0; i< mEquipments.size(); i++)
         {
-            if (mEquipments.get(i).getId() == id) return mEquipments.get(i).getName();
+            String idToTest = mEquipments.get(i).getId();
+            if (id.compareTo(idToTest) == 0) return mEquipments.get(i).getName();
         }
         return null;
     }

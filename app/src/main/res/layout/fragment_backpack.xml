@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context=".BackpackFragment">
 
+    <Button
+        android:id="@+id/fragment_backpack_test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"/>
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"

@@ -3,6 +3,7 @@ package com.saint_gab.sacconnecte;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,8 +45,17 @@ public class BackpackFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_backpack, container, false);
+        mBackpackContent.setBackpackFragment(this);
 
         configureListView();
+
+        Button testButton = mView.findViewById(R.id.fragment_backpack_test_button);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBackpackContent.setContent("210074981CD1");
+            }
+        });
 
         return mView;
     }
@@ -56,9 +66,14 @@ public class BackpackFragment extends Fragment {
         String[] contentNames = mBackpackContent.getContentStrings();
         if (contentNames != null)
         {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, contentNames);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_list_item_1, contentNames);
             mListView.setAdapter(adapter);
         }
+    }
+
+    public void refreshBackpackContent()
+    {
+        configureListView();
     }
 
 }

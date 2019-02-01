@@ -83,7 +83,7 @@ public class BluetoothFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mBackpackContent.setContent("Livre d'anglais/Cahier de maths/Classeur d'ETT");
+        //mBackpackContent.setContent("210074981CD1");
 
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_bluetooth, container, false);
@@ -332,8 +332,13 @@ public class BluetoothFragment extends Fragment {
                     // Read from the InputStream
                     bytes = mmInStream.available();
                     if (bytes != 0) {
+                        int bytesAvaliable = 0;
+                        do {
+                            bytesAvaliable = mmInStream.available();
+                            SystemClock.sleep(50);
+                        } while(mmInStream.available() != bytesAvaliable);//pause and wait for rest of data. Adjust this depending on your sending speed.
                         //Log.i("ConnectedThread", "run: mmInStream.available = true");
-                        SystemClock.sleep(500); //pause and wait for rest of data. Adjust this depending on your sending speed.
+                        //SystemClock.sleep(500);
                         bytes = mmInStream.available(); // how many bytes are ready to be read?
                         bytes = mmInStream.read(buffer, 0, bytes); // record how many bytes we actually read
                         Log.i("ConnectedThread", "run: mmInStream.available = true bytes = " + new String(buffer, "UTF-8"));
