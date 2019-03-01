@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showBackpackFragment()
     {
         toolbar.setTitle("Sac à dos");
-        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent);
+        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent, mTimetable);
         this.startTransactionFragment(this.fragmentBackpack);
     }
 

@@ -108,7 +108,7 @@ public class BluetoothFragment extends Fragment {
                 if (msg.what == MESSAGE_READ) {
                     String readMessage = null;
                     try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                        readMessage = new String((byte[]) msg.obj,0, msg.arg1, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -324,10 +324,13 @@ public class BluetoothFragment extends Fragment {
         }
 
         public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
+
             int bytes; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
+            /*Log.i("ConnectedThread", "ConnectedThread is running");
+            SystemClock.sleep(100);*/
             while (true) {
+                //Log.i("ConnectedThread", "is running");
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.available();
@@ -335,13 +338,14 @@ public class BluetoothFragment extends Fragment {
                         int bytesAvaliable = 0;
                         do {
                             bytesAvaliable = mmInStream.available();
-                            SystemClock.sleep(50);
+                            SystemClock.sleep(100);
                         } while(mmInStream.available() != bytesAvaliable);//pause and wait for rest of data. Adjust this depending on your sending speed.
                         //Log.i("ConnectedThread", "run: mmInStream.available = true");
                         //SystemClock.sleep(500);
+                        byte[] buffer = new byte[1024];  // buffer store for the stream
                         bytes = mmInStream.available(); // how many bytes are ready to be read?
                         bytes = mmInStream.read(buffer, 0, bytes); // record how many bytes we actually read
-                        Log.i("ConnectedThread", "run: mmInStream.available = true bytes = " + new String(buffer, "UTF-8"));
+                        Log.i("ConnectedThread", "Bluetooth communication : " + new String(buffer,0 , bytes, "UTF-8"));
                         mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
                                 .sendToTarget(); // Send the obtained bytes to the UI activity
                     }

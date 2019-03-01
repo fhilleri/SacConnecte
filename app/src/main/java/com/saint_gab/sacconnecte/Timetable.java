@@ -149,6 +149,16 @@ public class Timetable {
         return mEquipments.get(index);
     }
 
+    public Equipment getEquipmentFromId(String id)
+    {
+        for (int i=0; i< mEquipments.size(); i++)
+        {
+            String idToTest = mEquipments.get(i).getId();
+            if (id.compareTo(idToTest) == 0) return mEquipments.get(i);
+        }
+        return null;
+    }
+
     public String getEquipmentNameFromID(String id)//Retourne null si aucun materiel trouvé
     {
         for (int i=0; i< mEquipments.size(); i++)
@@ -231,7 +241,7 @@ public class Timetable {
                 }
 
             }
-            if (i != mSubjects.size() - 1) subjectsStr += ";";
+            if (i < mSubjects.size() - 1) subjectsStr += ";";
         }
         return subjectsStr;
     }
@@ -250,7 +260,7 @@ public class Timetable {
                 lessonsStr += mDays[i].get(j).getStartTime();
                 lessonsStr += ":";
                 lessonsStr += mDays[i].get(j).getEndTime();
-                if (i != mDays[i].size() - 1)   lessonsStr += ";";
+                if (j != mDays[i].size() - 1)   lessonsStr += ";";
             }
 
             if (i != mDays.length -1) lessonsStr += "/";
@@ -412,8 +422,8 @@ public class Timetable {
     {
         Calendar calendar = Calendar.getInstance();
 
-        //Time currentTime = new Time(calendar.get(Calendar.HOUR_OF_DAY ), calendar.get(Calendar.MINUTE));
-        Time currentTime = new Time(5, 30);
+        Time currentTime = new Time(calendar.get(Calendar.HOUR_OF_DAY ), calendar.get(Calendar.MINUTE));
+        //Time currentTime = new Time(5, 30);
         Log.i("Timetable", "getExpectedEquipments: time = " + currentTime.toString());
 
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
@@ -439,6 +449,12 @@ public class Timetable {
                     }
                 }
             }
+        }
+
+        Log.i("Timetable", "getExpectedEquipments: ExpectedEquipments :");
+        for (int i=0; i<expectedEquipments.size(); i++)
+        {
+            Log.i("Timetable", "- " + expectedEquipments.get(i).getName());
         }
 
         return expectedEquipments;

@@ -25,17 +25,19 @@ public class BackpackFragment extends Fragment {
 
     private View mView;
     private BackpackContent mBackpackContent;
+    private Timetable mTimetable;
 
     private ListView mListView;
 
-    public static BackpackFragment newInstance(BackpackContent backpackContent) {
+    public static BackpackFragment newInstance(BackpackContent backpackContent, Timetable timetable) {
 
-        return (new BackpackFragment(backpackContent));
+        return (new BackpackFragment(backpackContent, timetable));
     }
 
     @SuppressLint("ValidFragment")
-    public BackpackFragment(BackpackContent backpackContent)
+    public BackpackFragment(BackpackContent backpackContent, Timetable timetable)
     {
+        mTimetable = timetable;
         mBackpackContent = backpackContent;
     }
 
@@ -53,6 +55,7 @@ public class BackpackFragment extends Fragment {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTimetable.getExpectedEquipments();
                 mBackpackContent.setContent("210074981CD1");
             }
         });
@@ -64,9 +67,10 @@ public class BackpackFragment extends Fragment {
     {
         mListView = mView.findViewById(R.id.fragment_backpack_list_view);
         String[] contentNames = mBackpackContent.getContentStrings();
+        int[] contentColors = mBackpackContent.getColors();
         if (contentNames != null)
         {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mView.getContext(), android.R.layout.simple_list_item_1, contentNames);
+            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), contentNames, contentColors);
             mListView.setAdapter(adapter);
         }
     }

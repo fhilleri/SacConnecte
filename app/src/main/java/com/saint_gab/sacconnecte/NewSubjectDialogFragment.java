@@ -114,7 +114,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
             for (int i=0; i<subjectEquipments.size(); i++)
             {
                 int index = mTimetable.getIndexOfEquipment(subjectEquipments.get(i));
-                mListView.setItemChecked(i, true);
+                mListView.setItemChecked(index, true);
             }
         }
     }
@@ -124,12 +124,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
         mSubjectToEdit.setName(mName.getText().toString());
         mSubjectToEdit.setColor(mColor.getText().toString());
 
-        ArrayList<Equipment> equipments = new ArrayList<>();
-        SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
-        for (int i=0; i<sparseBooleanArray.size(); i++)
-        {
-            if(sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
-        }
+        ArrayList<Equipment> equipments = getSelectedEquipments();
         mSubjectToEdit.setEquipments(equipments);
 
         mListener.onDialogPositiveClick(null);
@@ -140,15 +135,20 @@ public class NewSubjectDialogFragment extends DialogFragment {
         String name = mName.getText().toString();
         String color = mColor.getText().toString();
 
-        ArrayList<Equipment> equipments = new ArrayList<>();
-        SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
-        for (int i=0; i<mListView.getCheckedItemCount(); i++)
-        {
-            if (sparseBooleanArray.get(i)) equipments.add(mTimetable.getEquipment(i));
-        }
+        ArrayList<Equipment> equipments = getSelectedEquipments();
 
         Subject newSubject = new Subject(name, color, equipments, mTimetable);
         mListener.onDialogPositiveClick(newSubject);
+    }
+
+    private ArrayList<Equipment> getSelectedEquipments()
+    {
+        ArrayList<Equipment> equipments = new ArrayList<>();
+        for (int i=0; i<mListView.getCount(); i++)
+        {
+            if (mListView.isItemChecked(i)) equipments.add(mTimetable.getEquipment(i));
+        }
+        return equipments;
     }
 
     private boolean verifyContent()
