@@ -43,7 +43,7 @@ public class Timetable {
         //initializeTimetable();
 
         loadTimetable();
-        getExpectedEquipments();
+        //getExpectedEquipments();
     }
 
     public void addSubject(Subject newSubject)
@@ -80,6 +80,17 @@ public class Timetable {
             }
             mDays[i] = newLessonArray;
         }
+    }
+
+    public boolean equipmentExist(String id)
+    {
+        boolean exist = false;
+        for (int i=0; i<mEquipments.size(); i++)
+        {
+            if (mEquipments.get(i).getId() == id) exist = true;
+        }
+        Log.i("Timetable", "equipmentExist: " + exist);
+        return exist;
     }
 
     public void addEquipment(Equipment equipment)
@@ -436,25 +447,28 @@ public class Timetable {
         Log.i("Timetable", "getExpectedEquipments: day of week = " + dayOfWeek);
 
         ArrayList<Equipment> expectedEquipments = new ArrayList<>();
-        for (int i=0; i<mDays[dayOfWeek].size(); i++)
+        if (dayOfWeek < 5)
         {
-            if (!mDays[dayOfWeek].get(i).hasBegun(currentTime))
+            for (int i=0; i<mDays[dayOfWeek].size(); i++)
             {
-                ArrayList<Equipment> equipments = mDays[dayOfWeek].get(i).getSubject().getEquipments();
-                if (equipments != null)
+                if (!mDays[dayOfWeek].get(i).hasBegun(currentTime))
                 {
-                    for (int j = 0; j<equipments.size(); j++)
+                    ArrayList<Equipment> equipments = mDays[dayOfWeek].get(i).getSubject().getEquipments();
+                    if (equipments != null)
                     {
-                        if (!expectedEquipments.contains(equipments.get(j))) expectedEquipments.add(equipments.get(j));
+                        for (int j = 0; j<equipments.size(); j++)
+                        {
+                            if (!expectedEquipments.contains(equipments.get(j))) expectedEquipments.add(equipments.get(j));
+                        }
                     }
                 }
             }
-        }
 
-        Log.i("Timetable", "getExpectedEquipments: ExpectedEquipments :");
-        for (int i=0; i<expectedEquipments.size(); i++)
-        {
-            Log.i("Timetable", "- " + expectedEquipments.get(i).getName());
+            Log.i("Timetable", "getExpectedEquipments: ExpectedEquipments :");
+            for (int i=0; i<expectedEquipments.size(); i++)
+            {
+                Log.i("Timetable", "- " + expectedEquipments.get(i).getName());
+            }
         }
 
         return expectedEquipments;

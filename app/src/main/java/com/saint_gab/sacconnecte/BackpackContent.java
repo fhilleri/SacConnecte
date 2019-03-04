@@ -3,22 +3,24 @@ package com.saint_gab.sacconnecte;
 import android.graphics.Color;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class BackpackContent {
 
     private Timetable mTimetable;
-    private String[] mEquipmentsId;
-    private String[] mEquipmentsString;
+    private ArrayList<Equipment> mEquipments;
+    private ArrayList<String> mUnknowEquipmentsId;
     private BackpackFragment mBackpackFragment;
 
     public BackpackContent(Timetable timetable)
     {
         Log.i("BackpackContent", "Initialisation");
         mTimetable = timetable;
-        mEquipmentsId = new String[0];
-        mEquipmentsString = new String[0];
+        mEquipments = new ArrayList<>();
+        mUnknowEquipmentsId = new ArrayList<>();
     }
 
     public void setBackpackFragment(BackpackFragment backpackFragment)
@@ -54,24 +56,53 @@ public class BackpackContent {
             }
         }
 
-        mEquipmentsId = correctEquipmentsIds;
-        mEquipmentsString = new String[correctEquipmentsIds.length];
+        mEquipments.clear();
+        mUnknowEquipmentsId.clear();
         for(int i=0; i<correctEquipmentsIds.length; i++)
         {
             String name = mTimetable.getEquipmentNameFromID(correctEquipmentsIds[i]);
-            mEquipmentsString[i] = (name != null ? name : correctEquipmentsIds[i] );
+            if (name != null)
+            {
+                mEquipments.add(mTimetable.getEquipmentFromId(correctEquipmentsIds[i]));
+            }
+            else
+            {
+                mUnknowEquipmentsId.add(correctEquipmentsIds[i]);
+            }
         }
         if (mBackpackFragment != null) mBackpackFragment.refreshBackpackContent();
     }
 
-
-    public String[] getContentStrings()
+    public ArrayList<Equipment> getContent()
     {
-        return mEquipmentsString;
+        return mEquipments;
+    }
+
+
+    public Equipment[] getContentArray()
+    {
+        Equipment[] result = new Equipment[mEquipments.size()];
+        return mEquipments.toArray(result);
+    }
+
+    public String[] getUnknowEquipmentsId()
+    {
+        String[] result = new String[mUnknowEquipmentsId.size()];
+        return mUnknowEquipmentsId.toArray(result);
+    }
+
+    public String[] getContentIds()
+    {
+        String[] contentIds = new String[mEquipments.size()];
+        for (int i=0; i<contentIds.length; i++)
+        {
+            contentIds[i] = mEquipments.get(i).getId();
+        }
+        return contentIds;
     }
 
     //Retourne les couleurs des equipments de getContentStings, equipment attendu = vert, equipment random = blanc
-    public int[] getColors()
+    /*public int[] getColors()
     {
         int[] colors = new int[mEquipmentsString.length];
         ArrayList<Equipment> expectedEquipments = mTimetable.getExpectedEquipments();
@@ -87,5 +118,5 @@ public class BackpackContent {
             }
         }
         return colors;
-    }
+    }*/
 }

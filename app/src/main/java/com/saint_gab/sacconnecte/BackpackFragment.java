@@ -4,6 +4,7 @@ package com.saint_gab.sacconnecte;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 /**
@@ -51,12 +53,13 @@ public class BackpackFragment extends Fragment {
 
         configureListView();
 
-        Button testButton = mView.findViewById(R.id.fragment_backpack_test_button);
+        final Button testButton = mView.findViewById(R.id.fragment_backpack_test_button);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTimetable.getExpectedEquipments();
-                mBackpackContent.setContent("210074981CD1");
+                mBackpackContent.setContent("210074981CD1/70002E414659/021348964201");
+                testButton.setVisibility(View.GONE);
             }
         });
 
@@ -66,11 +69,64 @@ public class BackpackFragment extends Fragment {
     private void configureListView()
     {
         mListView = mView.findViewById(R.id.fragment_backpack_list_view);
-        String[] contentNames = mBackpackContent.getContentStrings();
-        int[] contentColors = mBackpackContent.getColors();
-        if (contentNames != null)
+
+        ArrayList<Equipment> equipments = mBackpackContent.getContent();
+        ArrayList<Equipment> expectedEquipments = mTimetable.getExpectedEquipments();
+        ArrayList<Equipment> presentExpectedEquipments = new ArrayList<>();
+        String[] unknowEquipments = mBackpackContent.getUnknowEquipmentsId();
+
+        //On regarde si des equipments attendus sont présents
+        for (int i=0; i<equipments.size(); i++)
         {
-            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), contentNames, contentColors);
+            if (expectedEquipments.contains(equipments.get(i)))
+            {
+                presentExpectedEquipments.add((equipments.get(i)));
+                expectedEquipments.remove(equipments.get(i));
+                equipments.remove(equipments.get(i));
+            }
+        }
+
+        int[] colors = new int[presentExpectedEquipments.size() + equipments.size() + expectedEquipments.size() + unknowEquipments.length];
+        String[] strings = new String[colors.length];
+
+        int writingIndex = 0;
+        //On remplit le tableau avec les equipments présents et attendus
+        for (int i=0; i < presentExpectedEquipments.size(); i++)
+        {
+            strings[writingIndex] = presentExpectedEquipments.get(i).getName();
+            colors[writingIndex] = Color.GREEN;
+            writingIndex++;
+        }
+
+        //On remplit le tableau avec les equipments présents
+        for (int i=0; i < equipments.size(); i++)
+        {
+            strings[writingIndex] = equipments.get(i).getName();
+            colors[writingIndex] = Color.WHITE;
+            writingIndex++;
+        }
+
+        //On remplit le tableau avec les equipments attendus non présents
+        for (int i=0; i < expectedEquipments.size(); i++)
+        {
+            strings[writingIndex] = expectedEquipments.get(i).getName();
+            colors[writingIndex] = Color.RED;
+            writingIndex++;
+        }
+
+        //On remplit le tableau avec les equipments inconnus présents
+        for (int i=0; i < unknowEquipments.length; i++)
+        {
+            strings[writingIndex] = unknowEquipments[i];
+            colors[writingIndex] = Color.WHITE;
+            writingIndex++;
+        }
+
+
+
+        if (strings != null && strings.length > 0)
+        {
+            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), strings, colors);
             mListView.setAdapter(adapter);
         }
     }

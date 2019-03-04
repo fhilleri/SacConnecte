@@ -27,6 +27,7 @@ public class NewEquipmentDialogFragment extends DialogFragment {
     static final int EMPTY_EDIT_TEXT = 1;
     static final int ILLEGAL_ID_CHARACTERS = 2;
     static final int WRONG_ID_CHARACTER_NUMBER = 3;
+    static final int ALREADY_EXIST = 4;
 
     Equipment mEquipmentToEdit;//Est nul en cas de création d'equipment
     boolean editing;//Précise si on modifie ou si on créé un subject
@@ -129,6 +130,9 @@ public class NewEquipmentDialogFragment extends DialogFragment {
             case WRONG_ID_CHARACTER_NUMBER:
                 Toast.makeText(getContext(), "Les identifiants doivent être composé de 12 caractères", Toast.LENGTH_LONG).show();
                 break;
+            case ALREADY_EXIST:
+                Toast.makeText(getContext(), "Cet identifiant est déjà attribué", Toast.LENGTH_LONG).show();
+                break;
         }
     }
 
@@ -142,6 +146,7 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         }
         else if(mId.getText().toString().matches("[^0123456789ABCDEF]")) result = ILLEGAL_ID_CHARACTERS;
         else if(mId.getText().toString().length() != 12) result = WRONG_ID_CHARACTER_NUMBER;
+        else if(mTimetable.equipmentExist(mId.getText().toString())) result = ALREADY_EXIST;
 
         mId.setText(mId.getText().toString().toUpperCase());
 
