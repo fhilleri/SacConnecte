@@ -93,6 +93,18 @@ public class Timetable {
         return exist;
     }
 
+    public boolean subjectExist(String name)
+    {
+        boolean exist = false;
+        for (int i = 0; i < mSubjects.size(); i++)
+        {
+            String subjectName = mSubjects.get(i).getName();
+            if (name.equals(subjectName)) exist = true;
+        }
+        Log.i("Timetable", "Subject : " + name + (exist ? " exist" : " does not exist"));
+        return exist;
+    }
+
     public void addEquipment(Equipment equipment)
     {
         mEquipments.add(equipment);

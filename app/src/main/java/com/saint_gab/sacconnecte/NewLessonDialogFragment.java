@@ -31,6 +31,10 @@ public class NewLessonDialogFragment extends DialogFragment {
 
     private boolean editing;
 
+    //Codes d'erreurs
+    static final int CORRECT = 0;
+    static final int WRONG_TIMES_ORDER = 1;
+
 
     public interface NewLessonDialogListener {
         void onDialogPositiveClick(Lesson newLesson);
@@ -56,12 +60,13 @@ public class NewLessonDialogFragment extends DialogFragment {
         builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (verifyContent())//On empêche l'utilisateur de créer un cours avec des valeurs vides
+                int errorCode = verifyContent();
+                if (errorCode == 0)//On empêche l'utilisateur de créer un cours avec des valeurs vides
                 {
                     if (editing) editLesson();
                     else createLesson();    
                 } else  {
-                    Toast.makeText(getContext(), "Impossible de créer le cours", Toast.LENGTH_SHORT).show();
+                    displayErrors(errorCode);
                 }
             }
         });
@@ -82,16 +87,7 @@ public class NewLessonDialogFragment extends DialogFragment {
 
         mStartTime.setIs24HourView(true);
         mEndTime.setIs24HourView(true);
-    }
-    
-    private boolean verifyContent()
-    {
-        /*boolean result;
-        result = (
-            !mStartTime.getText().toString().isEmpty()
-            && !mEndTime.getText().toString().isEmpty());
-        */
-        return true;
+        mEndTime.setHour((mEndTime.getHour() + 1 ) % 24);
     }
 
     private void importLesson()
@@ -128,6 +124,28 @@ public class NewLessonDialogFragment extends DialogFragment {
         Time endTime = new Time(mEndTime.getHour(), mEndTime.getMinute());
         Lesson newLesson = new Lesson(subject, startTime, endTime, mTimetable);
         mListener.onDialogPositiveClick(newLesson);
+    }
+
+    private void displayErrors(int errorValue)
+    {
+        switch(errorValue)
+        {
+            case WRONG_TIMES_ORDER:
+                Toast.makeText(getContext(), "Les horaires ne sont pas dans le bon sens", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    private int verifyContent()
+    {
+        int result = CORRECT;
+
+        Time startTime = new Time(mStartTime.getHour(), mStartTime.getMinute());
+        Time endTime = new Time(mEndTime.getHour(), mEndTime.getMinute());
+
+        if (startTime.isAfter(endTime)) result = WRONG_TIMES_ORDER;
+
+        return result;
     }
 
 }

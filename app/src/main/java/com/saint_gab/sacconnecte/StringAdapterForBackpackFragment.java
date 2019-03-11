@@ -52,7 +52,7 @@ public class StringAdapterForBackpackFragment extends ArrayAdapter<String> {
         }
 
         viewHolder.Name.setText(string);
-        viewHolder.Name.setBackgroundColor(mColors[position]);
+        if (mColors != null && mColors.length > 0) viewHolder.Name.setBackgroundColor(mColors[position]);
         //result.setBackgroundColor(Color.parseColor(subject.getColor()));
 
         return result;

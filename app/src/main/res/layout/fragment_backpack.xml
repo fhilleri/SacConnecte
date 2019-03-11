@@ -8,13 +8,36 @@
     android:orientation="vertical"
     tools:context=".BackpackFragment">
 
-    <Button
-        android:id="@+id/fragment_backpack_test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test"/>
-
     <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_logosac"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contenu attendu :"
+            android:textSize="25dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/fragment_backpack_expected_content_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,10 +61,16 @@
 
     </LinearLayout>
 
-
     <ListView
-        android:id="@+id/fragment_backpack_list_view"
+        android:id="@+id/fragment_backpack_content_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:divider="@null"/>
+
+    <Button
+        android:id="@+id/fragment_backpack_test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"/>
 
 </LinearLayout>

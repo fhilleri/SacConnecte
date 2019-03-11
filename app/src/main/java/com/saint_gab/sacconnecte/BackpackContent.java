@@ -1,6 +1,11 @@
 package com.saint_gab.sacconnecte;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import java.lang.reflect.Array;
@@ -15,9 +20,12 @@ public class BackpackContent {
     private ArrayList<String> mUnknowEquipmentsId;
     private BackpackFragment mBackpackFragment;
 
-    public BackpackContent(Timetable timetable)
+    private Context mContext;
+
+    public BackpackContent(Timetable timetable, Context context)
     {
         Log.i("BackpackContent", "Initialisation");
+        mContext = context;
         mTimetable = timetable;
         mEquipments = new ArrayList<>();
         mUnknowEquipmentsId = new ArrayList<>();
@@ -71,6 +79,8 @@ public class BackpackContent {
             }
         }
         if (mBackpackFragment != null) mBackpackFragment.refreshBackpackContent();
+
+        sendNotification();
     }
 
     public ArrayList<Equipment> getContent()
@@ -99,6 +109,41 @@ public class BackpackContent {
             contentIds[i] = mEquipments.get(i).getId();
         }
         return contentIds;
+    }
+
+    public void sendNotification()
+    {
+        ArrayList<Equipment> expectedEquipments = mTimetable.getExpectedEquipments();
+        ArrayList<Equipment> presentExpectedEquipments = new ArrayList<>();
+
+        for (int i=0; i<mEquipments.size(); i++)
+        {
+            if (expectedEquipments.contains(mEquipments.get(i)))
+            {
+                presentExpectedEquipments.add(mEquipments.get(i));
+                expectedEquipments.remove(mEquipments.get(i));
+            }
+        }
+
+        //--- Notification ---
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, "com.saint_gab.sacconnecte")
+                .setSmallIcon(R.drawable.ic_logosac)
+                .setContentTitle("Sac connecté")
+                .setContentText("Il vous manque " + expectedEquipments.size() + " fournitures")
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, builder.build());
     }
 
     //Retourne les couleurs des equipments de getContentStings, equipment attendu = vert, equipment random = blanc

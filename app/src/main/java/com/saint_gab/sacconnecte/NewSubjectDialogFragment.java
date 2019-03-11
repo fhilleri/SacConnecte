@@ -32,6 +32,13 @@ public class NewSubjectDialogFragment extends DialogFragment {
     //Use this instance of the interface to deliver action events
     NewEquipmentDialogListener mListener;
 
+    //Codes d'erreurs
+    static final int CORRECT = 0;
+    static final int EMPTY_EDIT_TEXT = 1;
+    static final int WRONG_COLOR = 2;
+    static final int ALREADY_EXIST = 3;
+
+
     View mView;
     EditText mName;
     EditText mColor;
@@ -69,12 +76,13 @@ public class NewSubjectDialogFragment extends DialogFragment {
         builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (verifyContent())
+                int errorCode = verifyContent();
+                if (errorCode == CORRECT)
                 {
                     if (editing) editSubject();
                     else createSubject();    
                 }
-                else Toast.makeText(getContext(), "Impossible de créer la matière", Toast.LENGTH_SHORT).show();
+                else displayErrors(errorCode);
             }
         });
         builder.setNegativeButton("Annuler", null);
@@ -151,12 +159,39 @@ public class NewSubjectDialogFragment extends DialogFragment {
         return equipments;
     }
 
-    private boolean verifyContent()
+    /*private boolean verifyContent()
     {
         boolean result;
         result = (
                 !mName.getText().toString().isEmpty()
                         && !mColor.getText().toString().isEmpty());
+
+        return result;
+    }*/
+    private void displayErrors(int errorValue)
+    {
+        switch(errorValue)
+        {
+            case EMPTY_EDIT_TEXT:
+                Toast.makeText(getContext(), "Les chaines de caractères ne doivent pas être vides", Toast.LENGTH_LONG).show();
+                break;
+            case WRONG_COLOR:
+                Toast.makeText(getContext(), "La couleur doit être sous la forme hexadécimal : #ffffff", Toast.LENGTH_LONG).show();
+                break;
+            case ALREADY_EXIST:
+                Toast.makeText(getContext(), "Cette matière existe déjà", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    private int verifyContent()
+    {
+        int result = CORRECT;
+        if (mName.getText().toString().isEmpty()
+            && mColor.getText().toString().isEmpty()) result = EMPTY_EDIT_TEXT;
+        else if(mColor.getText().toString().length() != 7) result = WRONG_COLOR;
+        else if(mTimetable.subjectExist(mName.getText().toString())) result = ALREADY_EXIST;
+
 
         return result;
     }

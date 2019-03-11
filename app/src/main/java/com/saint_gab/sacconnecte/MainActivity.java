@@ -1,6 +1,9 @@
 package com.saint_gab.sacconnecte;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
         setContentView(R.layout.activity_main);
 
         //Configuration de tous les views
@@ -47,6 +51,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureTimeTable();
         this.configureBackpackContent();
         showBackpackFragment();//Affichage de la page backpack au lancement de l'appli
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "BACKPACK CONTENT CHANNEL";
+            String description = "Channel to display bakcpack content";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("com.saint_gab.sacconnecte", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -176,6 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureBackpackContent()
     {
-        mBackpackContent = new BackpackContent(mTimetable);
+        mBackpackContent = new BackpackContent(mTimetable, this);
     }
 }

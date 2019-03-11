@@ -3,10 +3,18 @@ package com.saint_gab.sacconnecte;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +23,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,7 +39,8 @@ public class BackpackFragment extends Fragment {
     private BackpackContent mBackpackContent;
     private Timetable mTimetable;
 
-    private ListView mListView;
+    private ListView mExpectedContentListView;
+    private ListView mUnexpectedContentListView;
 
     public static BackpackFragment newInstance(BackpackContent backpackContent, Timetable timetable) {
 
@@ -58,7 +69,7 @@ public class BackpackFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mTimetable.getExpectedEquipments();
-                mBackpackContent.setContent("210074981CD1/70002E414659/021348964201");
+                mBackpackContent.setContent("210074981CD1/2500658671B7");
                 testButton.setVisibility(View.GONE);
             }
         });
@@ -68,68 +79,99 @@ public class BackpackFragment extends Fragment {
 
     private void configureListView()
     {
-        mListView = mView.findViewById(R.id.fragment_backpack_list_view);
+        mUnexpectedContentListView = mView.findViewById(R.id.fragment_backpack_content_list_view);
+        mExpectedContentListView = mView.findViewById(R.id.fragment_backpack_expected_content_list_view);
 
         ArrayList<Equipment> equipments = mBackpackContent.getContent();
         ArrayList<Equipment> expectedEquipments = mTimetable.getExpectedEquipments();
         ArrayList<Equipment> presentExpectedEquipments = new ArrayList<>();
         String[] unknowEquipments = mBackpackContent.getUnknowEquipmentsId();
 
+        Log.i("BackpackFragment", "");
+        Log.i("BackpackFragment", "--- ListView configuration ---");
+
+        Log.i("BackpackFragment", "equipments size = " + equipments.size());
+
         //On regarde si des equipments attendus sont présents
         for (int i=0; i<equipments.size(); i++)
         {
+            Log.i("BackpackFragment", "i =" + i);
             if (expectedEquipments.contains(equipments.get(i)))
             {
+                Log.i("BackpackFragment", "present expected equipment : " + equipments.get(i).getName());
                 presentExpectedEquipments.add((equipments.get(i)));
                 expectedEquipments.remove(equipments.get(i));
-                equipments.remove(equipments.get(i));
+            }
+            else
+            {
+                Log.i("BackpackFragment", "equipment : " + equipments.get(i).getName() + " is not expected");
             }
         }
 
-        int[] colors = new int[presentExpectedEquipments.size() + equipments.size() + expectedEquipments.size() + unknowEquipments.length];
-        String[] strings = new String[colors.length];
+        ArrayList<String> expectedContentStrings = new ArrayList<>();
+        ArrayList<String> unexpectedContentStrings = new ArrayList<>();
 
-        int writingIndex = 0;
+
+
         //On remplit le tableau avec les equipments présents et attendus
+        Log.i("BackpackFragment", "-presentExpectedEquipments :");
         for (int i=0; i < presentExpectedEquipments.size(); i++)
         {
-            strings[writingIndex] = presentExpectedEquipments.get(i).getName();
-            colors[writingIndex] = Color.GREEN;
-            writingIndex++;
-        }
-
-        //On remplit le tableau avec les equipments présents
-        for (int i=0; i < equipments.size(); i++)
-        {
-            strings[writingIndex] = equipments.get(i).getName();
-            colors[writingIndex] = Color.WHITE;
-            writingIndex++;
+            Log.i("BackpackFragment", "     " + presentExpectedEquipments.get(i).getName());
+            expectedContentStrings.add(presentExpectedEquipments.get(i).getName());
         }
 
         //On remplit le tableau avec les equipments attendus non présents
+        Log.i("BackpackFragment", "-expectedEquipments :");
         for (int i=0; i < expectedEquipments.size(); i++)
         {
-            strings[writingIndex] = expectedEquipments.get(i).getName();
-            colors[writingIndex] = Color.RED;
-            writingIndex++;
+            Log.i("BackpackFragment", "     " + expectedEquipments.get(i).getName());
+            expectedContentStrings.add(expectedEquipments.get(i).getName());
         }
+
+        //On remplit le tableau avec les equipments présents
+        Log.i("BackpackFragment", "-equipments :");
+        for (int i=0; i < equipments.size(); i++)
+        {
+            Log.i("BackpackFragment", "     " + equipments.get(i).getName());
+            unexpectedContentStrings.add(equipments.get(i).getName());
+        }
+
 
         //On remplit le tableau avec les equipments inconnus présents
+        Log.i("BackpackFragment", "-unexpectedContentStrings :");
         for (int i=0; i < unknowEquipments.length; i++)
         {
-            strings[writingIndex] = unknowEquipments[i];
-            colors[writingIndex] = Color.WHITE;
-            writingIndex++;
+            Log.i("BackpackFragment", "     " + unknowEquipments[i]);
+            unexpectedContentStrings.add(unknowEquipments[i]);
         }
 
 
-
-        if (strings != null && strings.length > 0)
+        //Configuration de la listView des éléments attendus
+        if (expectedContentStrings != null && expectedContentStrings.size() > 0)
         {
-            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), strings, colors);
-            mListView.setAdapter(adapter);
+            int[] colors = new int[expectedContentStrings.size()];
+            for(int i=0; i<expectedContentStrings.size(); i++)
+            {
+                if (i < presentExpectedEquipments.size()) colors[i] = Color.GREEN;
+                else colors[i] = Color.RED;
+            }
+
+            String[] stringArray = new String[0];
+            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), expectedContentStrings.toArray(stringArray), colors);
+            mExpectedContentListView.setAdapter(adapter);
+        }
+
+        //Configuration de la listView des éléments non attendus
+        if (unexpectedContentStrings != null && unexpectedContentStrings.size() > 0)
+        {
+            String[] stringArray = new String[0];
+            ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), unexpectedContentStrings.toArray(stringArray), null);
+            mUnexpectedContentListView.setAdapter(adapter);
         }
     }
+
+
 
     public void refreshBackpackContent()
     {
