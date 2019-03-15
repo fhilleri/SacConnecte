@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,6 +36,8 @@ public class NewEquipmentDialogFragment extends DialogFragment {
     //Use this instance of the interface to deliver action events
     NewEquipmentDialogFragment.NewEquipmentDialogListener mListener;
 
+    String mUnknowId;
+
     View mView;
     EditText mName;
     EditText mId;
@@ -42,11 +45,12 @@ public class NewEquipmentDialogFragment extends DialogFragment {
     public NewEquipmentDialogFragment() {}
 
     @SuppressLint("ValidFragment")
-    public NewEquipmentDialogFragment(Object parent, Equipment equipmentToEdit, Timetable timetable)
+    public NewEquipmentDialogFragment(Object parent, Equipment equipmentToEdit, Timetable timetable, String id)
     {
         mEquipmentToEdit = equipmentToEdit;
         editing = equipmentToEdit != null;
         mTimetable = timetable;
+        mUnknowId = id;
 
         //Verify that the host activity implements the callback interface
         try {
@@ -86,6 +90,7 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         mId = mView.findViewById(R.id.dialog_fragment_equipment_color);
 
         if (editing) importEquipmentToEdit();
+        if (mUnknowId != null) mId.setText(mUnknowId);
 
         return builder.create();
     }

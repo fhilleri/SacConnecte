@@ -192,6 +192,15 @@ public class Timetable {
         return null;
     }
 
+    public Equipment getEquipmentFromName(String name)
+    {
+        for (int i=0; i<mEquipments.size(); i++)
+        {
+            if (mEquipments.get(i).getName().equals(name)) return mEquipments.get(i);
+        }
+        return null;
+    }
+
     public int getIndexOfEquipment(Equipment equipment)
     {
         return mEquipments.indexOf(equipment);

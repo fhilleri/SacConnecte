@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,15 +108,21 @@ public class EquipmentFragment extends Fragment implements NewEquipmentDialogFra
         });
     }
 
+    public void newEquipmentFromId(String id)
+    {
+        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, null, mTimetable, id);
+        newEquipmentDialogFragment.show(getFragmentManager(), "newSubject");
+    }
+
     private void newEquipment()
     {
-        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, null, mTimetable);
+        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, null, mTimetable, null);
         newEquipmentDialogFragment.show(getFragmentManager(), "newSubject");
     }
 
     private void editEquipment(int index)
     {
-        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, mTimetable.getEquipment(index), mTimetable);
+        DialogFragment newEquipmentDialogFragment = new NewEquipmentDialogFragment(this, mTimetable.getEquipment(index), mTimetable, null);
         newEquipmentDialogFragment.show(getFragmentManager(), "editSubject");
     }
 

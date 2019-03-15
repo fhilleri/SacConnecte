@@ -3,6 +3,7 @@ package com.saint_gab.sacconnecte;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragmentBackpack;
     private Fragment fragmentTimetable;
     private Fragment fragmentSubject;
-    private Fragment fragmentEquipment;
+    private EquipmentFragment fragmentEquipment;
     private Fragment fragmentBluetooth;
 
     //FOR DATAS
@@ -37,6 +39,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //FOR BACKPACK CONTENT
     private BackpackContent mBackpackContent;
+
+    public void createEquipment(String id)
+    {
+        showEquipmentFragment();
+        fragmentEquipment.newEquipmentFromId(id);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +58,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureNavigationView();
         this.configureTimeTable();
         this.configureBackpackContent();
+        //startService();
+
         showBackpackFragment();//Affichage de la page backpack au lancement de l'appli
     }
+
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -117,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showBackpackFragment()
     {
         toolbar.setTitle("Sac à dos");
-        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent, mTimetable);
+        if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent, mTimetable, this);
         this.startTransactionFragment(this.fragmentBackpack);
     }
 

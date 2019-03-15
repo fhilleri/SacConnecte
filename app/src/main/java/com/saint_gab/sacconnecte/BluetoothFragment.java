@@ -327,9 +327,9 @@ public class BluetoothFragment extends Fragment {
 
             int bytes; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
-            /*Log.i("ConnectedThread", "ConnectedThread is running");
-            SystemClock.sleep(100);*/
             while (true) {
+                /*Log.i("ConnectedThread", "ConnectedThread is running");
+                SystemClock.sleep(100);*/
                 //Log.i("ConnectedThread", "is running");
                 try {
                     // Read from the InputStream
@@ -338,7 +338,7 @@ public class BluetoothFragment extends Fragment {
                         int bytesAvaliable = 0;
                         do {
                             bytesAvaliable = mmInStream.available();
-                            SystemClock.sleep(100);
+                            SystemClock.sleep(75);
                         } while(mmInStream.available() != bytesAvaliable);//pause and wait for rest of data. Adjust this depending on your sending speed.
                         //Log.i("ConnectedThread", "run: mmInStream.available = true");
                         //SystemClock.sleep(500);

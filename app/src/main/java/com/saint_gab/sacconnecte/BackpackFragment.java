@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,20 +39,24 @@ public class BackpackFragment extends Fragment {
     private View mView;
     private BackpackContent mBackpackContent;
     private Timetable mTimetable;
+    private MainActivity mMainActivity;
 
     private ListView mExpectedContentListView;
     private ListView mUnexpectedContentListView;
 
-    public static BackpackFragment newInstance(BackpackContent backpackContent, Timetable timetable) {
+    ArrayList<String> unexpectedContentStrings;
 
-        return (new BackpackFragment(backpackContent, timetable));
+    public static BackpackFragment newInstance(BackpackContent backpackContent, Timetable timetable, MainActivity mainActivity) {
+
+        return (new BackpackFragment(backpackContent, timetable, mainActivity));
     }
 
     @SuppressLint("ValidFragment")
-    public BackpackFragment(BackpackContent backpackContent, Timetable timetable)
+    public BackpackFragment(BackpackContent backpackContent, Timetable timetable, MainActivity mainActivity)
     {
         mTimetable = timetable;
         mBackpackContent = backpackContent;
+        mMainActivity = mainActivity;
     }
 
 
@@ -109,7 +114,7 @@ public class BackpackFragment extends Fragment {
         }
 
         ArrayList<String> expectedContentStrings = new ArrayList<>();
-        ArrayList<String> unexpectedContentStrings = new ArrayList<>();
+        unexpectedContentStrings = new ArrayList<>();
 
 
 
@@ -160,6 +165,7 @@ public class BackpackFragment extends Fragment {
             String[] stringArray = new String[0];
             ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), expectedContentStrings.toArray(stringArray), colors);
             mExpectedContentListView.setAdapter(adapter);
+            Log.i("BackpackFragment", "ListView refreshed !");
         }
 
         //Configuration de la listView des éléments non attendus
@@ -168,6 +174,16 @@ public class BackpackFragment extends Fragment {
             String[] stringArray = new String[0];
             ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), unexpectedContentStrings.toArray(stringArray), null);
             mUnexpectedContentListView.setAdapter(adapter);
+
+            mUnexpectedContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (mTimetable.getEquipmentFromName(unexpectedContentStrings.get(position)) == null)
+                    {
+                        mMainActivity.createEquipment(unexpectedContentStrings.get(position));
+                    }
+                }
+            });
         }
     }
 
