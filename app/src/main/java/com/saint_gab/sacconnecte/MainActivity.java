@@ -48,7 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MainActivity", "onCreate ");
         super.onCreate(savedInstanceState);
+
+        Log.i("MainActivity", "super.onCreate");
+
         createNotificationChannel();
         setContentView(R.layout.activity_main);
 

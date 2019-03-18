@@ -153,7 +153,7 @@ public class BackpackFragment extends Fragment {
 
 
         //Configuration de la listView des éléments attendus
-        if (expectedContentStrings != null && expectedContentStrings.size() > 0)
+        if (expectedContentStrings != null)
         {
             int[] colors = new int[expectedContentStrings.size()];
             for(int i=0; i<expectedContentStrings.size(); i++)
@@ -169,7 +169,7 @@ public class BackpackFragment extends Fragment {
         }
 
         //Configuration de la listView des éléments non attendus
-        if (unexpectedContentStrings != null && unexpectedContentStrings.size() > 0)
+        if (unexpectedContentStrings != null)
         {
             String[] stringArray = new String[0];
             ArrayAdapter<String> adapter = new StringAdapterForBackpackFragment(mView.getContext(), unexpectedContentStrings.toArray(stringArray), null);

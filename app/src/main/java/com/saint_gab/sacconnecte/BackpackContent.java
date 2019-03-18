@@ -50,6 +50,7 @@ public class BackpackContent {
         }
         String[] correctEquipmentsIds = new String[correctEquipmentCount];
         int correctEquipmentWritingIndex = 0;
+        boolean emptyList = false;
         for (int i=0; i<equipmentsIds.length; i++)
         {
             if (equipmentsIds[i].length() == 12 && !(p.matcher(equipmentsIds[i]).find()))
@@ -61,21 +62,25 @@ public class BackpackContent {
             else
             {
                 Log.i("BackpackContent", "Invalide string :" + equipmentsIds[i]);
+                if (equipmentsIds[i] == "n") emptyList = true;
             }
         }
 
         mEquipments.clear();
         mUnknowEquipmentsId.clear();
-        for(int i=0; i<correctEquipmentsIds.length; i++)
+        if (!emptyList)
         {
-            String name = mTimetable.getEquipmentNameFromID(correctEquipmentsIds[i]);
-            if (name != null)
+            for(int i=0; i<correctEquipmentsIds.length; i++)
             {
-                mEquipments.add(mTimetable.getEquipmentFromId(correctEquipmentsIds[i]));
-            }
-            else
-            {
-                mUnknowEquipmentsId.add(correctEquipmentsIds[i]);
+                String name = mTimetable.getEquipmentNameFromID(correctEquipmentsIds[i]);
+                if (name != null)
+                {
+                    mEquipments.add(mTimetable.getEquipmentFromId(correctEquipmentsIds[i]));
+                }
+                else
+                {
+                    mUnknowEquipmentsId.add(correctEquipmentsIds[i]);
+                }
             }
         }
         if (mBackpackFragment != null) mBackpackFragment.refreshBackpackContent();
