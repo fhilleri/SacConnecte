@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <EditText
@@ -18,6 +18,19 @@
         android:layout_height="wrap_content"
         android:hint="Couleur"
         android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/dialog_fragment_subject_color_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"/>
+
+    <top.defaults.colorpicker.ColorWheelView
+        android:id="@+id/dialog_fragment_subject_colorPicker"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:enableBrightness="true"
+        app:enableAlpha="true" />
 
     <ListView
         android:id="@+id/dialog_fragment_subject_listView"

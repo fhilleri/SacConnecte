@@ -4,18 +4,26 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.icu.text.TimeZoneFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import top.defaults.colorpicker.ColorObserver;
+import top.defaults.colorpicker.ColorPickerPopup;
+import top.defaults.colorpicker.ColorWheelView;
 
 public class NewSubjectDialogFragment extends DialogFragment {
 
@@ -93,6 +101,40 @@ public class NewSubjectDialogFragment extends DialogFragment {
         configureListView();
 
         if (editing) importSubjectToEdit();
+
+
+
+        final Button colorButton = (Button) mView.findViewById(R.id.dialog_fragment_subject_color_button);
+        /*colorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ColorPickerPopup.Builder(getContext())
+                        .initialColor(Color.RED) // Set initial color
+                        .enableBrightness(true) // Enable brightness slider or not
+                        .enableAlpha(true) // Enable alpha slider or not
+                        .okTitle("Choose")
+                        .cancelTitle("Cancel")
+                        .showIndicator(true)
+                        .showValue(true)
+                        .build()
+                        .show(v, new ColorPickerPopup.ColorPickerObserver() {
+                            @Override
+                            public void onColorPicked(int color) {
+                                colorButton.setBackgroundColor(color);
+                            }
+                        });
+            }
+        });*/
+
+        ColorWheelView colorWheelView = mView.findViewById(R.id.dialog_fragment_subject_colorPicker);
+        colorWheelView.subscribe(new ColorObserver() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
+                colorButton.setBackgroundColor(color);
+                mColor.setText(("#" + Integer.toString(Color.red(color), 16) + Integer.toString(Color.green(color), 16) + Integer.toString(Color.blue(color), 16)).toUpperCase());
+            }
+        });
 
         return builder.create();
     }
@@ -190,7 +232,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
         if (mName.getText().toString().isEmpty()
             && mColor.getText().toString().isEmpty()) result = EMPTY_EDIT_TEXT;
         else if(mColor.getText().toString().length() != 7) result = WRONG_COLOR;
-        else if(mTimetable.subjectExist(mName.getText().toString())) result = ALREADY_EXIST;
+        else if(mTimetable.subjectExist(mName.getText().toString()) && !editing) result = ALREADY_EXIST;
 
 
         return result;
