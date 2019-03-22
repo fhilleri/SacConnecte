@@ -104,7 +104,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
 
 
-        final Button colorButton = (Button) mView.findViewById(R.id.dialog_fragment_subject_color_button);
+        final View colorView = (View) mView.findViewById(R.id.dialog_fragment_subject_color_view);
         /*colorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +131,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
-                colorButton.setBackgroundColor(color);
+                colorView.setBackgroundColor(color);
                 mColor.setText(("#" + Integer.toString(Color.red(color), 16) + Integer.toString(Color.green(color), 16) + Integer.toString(Color.blue(color), 16)).toUpperCase());
             }
         });

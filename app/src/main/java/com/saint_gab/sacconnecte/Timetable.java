@@ -1,8 +1,12 @@
 package com.saint_gab.sacconnecte;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +31,9 @@ public class Timetable {
     ArrayList<Lesson>[] mDays;
     ArrayList<Equipment> mEquipments;
     Context mContext;
+
+    final String icalFileName = "calendar.ical";
+    final String icalFilePath = "";
 
     public Timetable(Context context)
     {
@@ -494,4 +501,82 @@ public class Timetable {
 
         return expectedEquipments;
     }
+
+    public void importIcalFile()
+    {
+        File myExternalFile = new File(mContext.getExternalFilesDir(icalFilePath), icalFileName);
+        ArrayList<String> lessons = new ArrayList<>();
+        ArrayList<String> subjects = new ArrayList<>();
+
+        try {
+            FileInputStream fis = new FileInputStream(myExternalFile);
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br =
+                    new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                if (strLine.contains("SUMMARY") || strLine.contains("DTSTART") || strLine.contains("DTEND"))
+                {
+                    strLine = strLine.replace("DTSTART:", "");
+                    strLine = strLine.replace("DTEND:", "");
+                    if (strLine.contains("SUMMARY"))
+                    {
+                        strLine = strLine.replace("SUMMARY:", "");
+                        if (!subjects.contains(strLine))
+                        {
+                            subjects.add(strLine);
+                        }
+                    }
+
+                    Log.i("Timetable", "importIcalFile: readLine : " + strLine);
+                    lessons.set(lessons.size() - 1, lessons.get(lessons.size() - 1) + strLine);
+                }
+
+                if (strLine.contains("BEGIN:VEVENT"))
+                {
+                    lessons.add(strLine);
+                }
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("Timetable", "importIcalFile: " + lessons);
+        Log.i("Timetable", "importIcalFile: " + subjects);
+
+        //On efface l'ancien emploi du temps
+        while (!mSubjects.isEmpty())
+        {
+            deleteSubject(0);
+        }
+
+        //On créer les matières
+        for (int i=0; i<subjects.size(); i++)
+        {
+            creatSubjectFromIcalFile(subjects.get(i));
+        }
+    }
+
+    private void creatSubjectFromIcalFile(String str)
+    {
+        mSubjects.add(new Subject(str, "#FFFFFF", new ArrayList<Equipment>(), this));
+    }
+
+    private static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
 }

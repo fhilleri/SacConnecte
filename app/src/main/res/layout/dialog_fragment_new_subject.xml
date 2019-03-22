@@ -19,18 +19,28 @@
         android:hint="Couleur"
         android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:id="@+id/dialog_fragment_subject_color_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"/>
+        android:orientation="horizontal"
+        android:gravity="center">
 
-    <top.defaults.colorpicker.ColorWheelView
-        android:id="@+id/dialog_fragment_subject_colorPicker"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:enableBrightness="true"
-        app:enableAlpha="true" />
+        <top.defaults.colorpicker.ColorWheelView
+            android:id="@+id/dialog_fragment_subject_colorPicker"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:enableBrightness="true"
+            app:enableAlpha="true" />
+
+        <View
+            android:id="@+id/dialog_fragment_subject_color_view"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:elevation="10dp"
+            android:layout_marginVertical="20dp"/>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/dialog_fragment_subject_listView"
