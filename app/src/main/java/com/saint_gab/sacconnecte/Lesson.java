@@ -37,6 +37,7 @@ public class Lesson {
 
     public Lesson(Subject subject, Time startTime, Time endTime, Timetable timetable)
     {
+        mTimetable = timetable;
         mSubject = subject;
         mStartTime = startTime;
         mEndTime = endTime;

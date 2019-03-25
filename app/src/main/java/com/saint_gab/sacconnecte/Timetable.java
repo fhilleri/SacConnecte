@@ -1,6 +1,7 @@
 package com.saint_gab.sacconnecte;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Environment;
 import android.util.Log;
 
@@ -20,6 +21,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.TimeZone;
 
 import javax.security.auth.login.LoginException;
 
@@ -221,6 +224,15 @@ public class Timetable {
             subjectNames[i] = mSubjects.get(i).getName();
         }
         return subjectNames;
+    }
+
+    public int getSubjectIndexFromName(String name)
+    {
+        for (int i=0; i<mSubjects.size(); i++)
+        {
+            if (mSubjects.get(i).getName().equals(name)) return i;
+        }
+        return -1;
     }
 
     public String[] getEquipmentNames()
@@ -502,6 +514,20 @@ public class Timetable {
         return expectedEquipments;
     }
 
+    private int getDayOfWeek(Calendar calendar)
+    {
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //On passe du début de la semaine du dimanche au lundi
+        //et on passe de 1-7 à 0-6
+        dayOfWeek -= 2;
+        if (dayOfWeek<0) dayOfWeek = 6;
+        Log.i("Timetable", "getExpectedEquipments: day of week = " + dayOfWeek);
+
+        return dayOfWeek;
+    }
+
     public void importIcalFile()
     {
         File myExternalFile = new File(mContext.getExternalFilesDir(icalFilePath), icalFileName);
@@ -529,12 +555,12 @@ public class Timetable {
                     }
 
                     Log.i("Timetable", "importIcalFile: readLine : " + strLine);
-                    lessons.set(lessons.size() - 1, lessons.get(lessons.size() - 1) + strLine);
+                    lessons.set(lessons.size() - 1, lessons.get(lessons.size() - 1) + (!lessons.get(lessons.size() - 1).isEmpty() ? "/" : "") + strLine);
                 }
 
                 if (strLine.contains("BEGIN:VEVENT"))
                 {
-                    lessons.add(strLine);
+                    lessons.add("");
                 }
             }
             in.close();
@@ -556,11 +582,60 @@ public class Timetable {
         {
             creatSubjectFromIcalFile(subjects.get(i));
         }
+
+        for (int i=0; i<lessons.size(); i++)
+        {
+            createLessonFromIcalFile(lessons.get(i));
+        }
     }
 
     private void creatSubjectFromIcalFile(String str)
     {
-        mSubjects.add(new Subject(str, "#FFFFFF", new ArrayList<Equipment>(), this));
+        Random rand = new Random();
+        int color = Color.rgb(rand.nextInt(240) + 16, rand.nextInt(240) + 16, rand.nextInt(240) + 16);
+        String colorStr = ("#" + Integer.toString(Color.red(color), 16) + Integer.toString(Color.green(color), 16) + Integer.toString(Color.blue(color), 16)).toUpperCase();
+        Log.i("Timetable", "creatSubjectFromIcalFile: colorStr = " + colorStr);
+        mSubjects.add(new Subject(str, colorStr, new ArrayList<Equipment>(), this));
+    }
+
+    private void createLessonFromIcalFile(String lessonStr)
+    {
+        //On supprime le Z car il ne sert à rien
+        lessonStr.replace("Z", "");
+        String[] strParts = lessonStr.split("/");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        Log.i("Timetable", "createLessonFromIcalFile: UTC : " + TimeZone.getTimeZone("UTC").getRawOffset());
+        Log.i("Timetable", "createLessonFromIcalFile: Paris : " + TimeZone.getDefault().getRawOffset());
+        int timeOffset = TimeZone.getDefault().getRawOffset() / 3600000;
+
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calendar.set(Integer.valueOf(strParts[0].substring(0, 4)), Integer.valueOf(strParts[0].substring(4, 6)) - 1, Integer.valueOf(strParts[0].substring(6, 8)), Integer.valueOf(strParts[0].substring(9, 11)) + timeOffset, Integer.valueOf(strParts[0].substring(11, 13)));
+        calendar.setTimeZone(TimeZone.getTimeZone("Paris"));
+        Log.i("Timetable", "createLessonFromIcalFile: YEAR = " + calendar.get(Calendar.YEAR) + "  expected = " + Integer.parseInt(strParts[0].substring(0, 4)) + "  string = " + strParts[0].substring(0, 4));
+        Log.i("Timetable", "createLessonFromIcalFile: MONTH = " + calendar.get(Calendar.MONTH) + "  expected = " + Integer.parseInt(strParts[0].substring(4, 6)) + "  string = " + strParts[0].substring(4, 6));
+        Log.i("Timetable", "createLessonFromIcalFile: DAYOFMONTH = " + calendar.get(Calendar.DAY_OF_MONTH) + "  expected = " + Integer.parseInt(strParts[0].substring(6, 8)) + "  string = " + strParts[0].substring(6, 8));
+        Log.i("Timetable", "createLessonFromIcalFile: HOUR = " + calendar.get(Calendar.HOUR_OF_DAY) + "  expected = " + Integer.parseInt(strParts[0].substring(9, 11)) + "  string = " + strParts[0].substring(9, 11));
+        Log.i("Timetable", "createLessonFromIcalFile: MINUTE = " + calendar.get(Calendar.MINUTE) + "  expected = " + Integer.parseInt(strParts[0].substring(11, 13)) + "  string = " + strParts[0].substring(11, 13));
+        int dayOfWeek = getDayOfWeek(calendar);
+        Log.i("Timetable", "createLessonFromIcalFile: str = " + strParts[0] + "   day of week = " + dayOfWeek);
+        Log.i("Timetable", " ");
+
+        String startTime = calendar.get(Calendar.HOUR_OF_DAY ) + "h" + calendar.get(Calendar.MINUTE);
+        Log.i("Timetable", "createLessonFromIcalFile: startTime = " + startTime);
+
+        calendar.set(Integer.valueOf(strParts[1].substring(0, 4)), Integer.valueOf(strParts[1].substring(4, 6)) - 1, Integer.valueOf(strParts[1].substring(6, 8)), Integer.valueOf(strParts[1].substring(9, 11)) + timeOffset, Integer.valueOf(strParts[1].substring(11, 13)));
+        String endTime = calendar.get(Calendar.HOUR_OF_DAY ) + "h" + calendar.get(Calendar.MINUTE);
+        Log.i("Timetable", "createLessonFromIcalFile: endTime = " + endTime);
+
+        Log.i("Timetable", "createLessonFromIcalFile: strParts[2] = " + strParts[2]);
+        int subjectIndex = getSubjectIndexFromName(strParts[2]);
+
+        if (subjectIndex != -1) mDays[dayOfWeek].add(new Lesson(mSubjects.get(subjectIndex), startTime, endTime, this));
+
+        sortLessons();
     }
 
     private static boolean isExternalStorageReadOnly() {
