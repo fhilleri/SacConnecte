@@ -48,6 +48,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
 
     View mView;
+    ColorWheelView mColorWheelView;
     EditText mName;
     EditText mColor;
     ListView mListView;
@@ -100,39 +101,31 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
         configureListView();
 
-        if (editing) importSubjectToEdit();
 
 
 
         final View colorView = (View) mView.findViewById(R.id.dialog_fragment_subject_color_view);
-        /*colorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ColorPickerPopup.Builder(getContext())
-                        .initialColor(Color.RED) // Set initial color
-                        .enableBrightness(true) // Enable brightness slider or not
-                        .enableAlpha(true) // Enable alpha slider or not
-                        .okTitle("Choose")
-                        .cancelTitle("Cancel")
-                        .showIndicator(true)
-                        .showValue(true)
-                        .build()
-                        .show(v, new ColorPickerPopup.ColorPickerObserver() {
-                            @Override
-                            public void onColorPicked(int color) {
-                                colorButton.setBackgroundColor(color);
-                            }
-                        });
-            }
-        });*/
 
-        ColorWheelView colorWheelView = mView.findViewById(R.id.dialog_fragment_subject_colorPicker);
-        colorWheelView.subscribe(new ColorObserver() {
+        mColorWheelView = mView.findViewById(R.id.dialog_fragment_subject_colorPicker);
+
+        if (editing) importSubjectToEdit();
+
+        mColorWheelView.subscribe(new ColorObserver() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
                 colorView.setBackgroundColor(color);
-                mColor.setText(("#" + Integer.toString(Color.red(color), 16) + Integer.toString(Color.green(color), 16) + Integer.toString(Color.blue(color), 16)).toUpperCase());
+
+                //On cherche le code couleur héxadécimal de la couleur
+                String red = Integer.toString(Color.red(color), 16);
+                String green = Integer.toString(Color.green(color), 16);
+                String blue = Integer.toString(Color.blue(color), 16);
+                //On s'assure que le code couleur soit bien composé de 6 caractères
+                red = (red.length() == 2 ? red : "0" + red);
+                green = (green.length() == 2 ? green : "0" + green);
+                blue = (blue.length() == 2 ? blue : "0" + blue);
+
+                mColor.setText(("#" + red + green + blue).toUpperCase());
             }
         });
 
@@ -158,6 +151,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     {
         mName.setText(mSubjectToEdit.getName());
         mColor.setText(mSubjectToEdit.getColor());
+        mColorWheelView.setColor(Color.parseColor(mSubjectToEdit.getColor()), false);
         ArrayList<Equipment> subjectEquipments = mSubjectToEdit.getEquipments();
         if (subjectEquipments != null)
         {

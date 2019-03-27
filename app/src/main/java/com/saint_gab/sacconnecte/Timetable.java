@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -564,28 +565,33 @@ public class Timetable {
                 }
             }
             in.close();
+
+            Log.i("Timetable", "importIcalFile: " + lessons);
+            Log.i("Timetable", "importIcalFile: " + subjects);
+
+            //On efface l'ancien emploi du temps
+            while (!mSubjects.isEmpty())
+            {
+                deleteSubject(0);
+            }
+
+            //On créer les matières
+            for (int i=0; i<subjects.size(); i++)
+            {
+                creatSubjectFromIcalFile(subjects.get(i));
+            }
+
+            for (int i=0; i<lessons.size(); i++)
+            {
+                createLessonFromIcalFile(lessons.get(i));
+            }
+
+            saveTimetable();
+            Toast.makeText(mContext, "Importation du fichier .ical réussie", Toast.LENGTH_SHORT).show();
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        Log.i("Timetable", "importIcalFile: " + lessons);
-        Log.i("Timetable", "importIcalFile: " + subjects);
-
-        //On efface l'ancien emploi du temps
-        while (!mSubjects.isEmpty())
-        {
-            deleteSubject(0);
-        }
-
-        //On créer les matières
-        for (int i=0; i<subjects.size(); i++)
-        {
-            creatSubjectFromIcalFile(subjects.get(i));
-        }
-
-        for (int i=0; i<lessons.size(); i++)
-        {
-            createLessonFromIcalFile(lessons.get(i));
+            Toast.makeText(mContext, "Impossible de trouver le fichier \"calendar.ical\"", Toast.LENGTH_SHORT).show();
         }
     }
 

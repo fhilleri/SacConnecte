@@ -73,10 +73,4 @@
         android:layout_height="wrap_content"
         android:text="Test"/>
 
-    <Button
-        android:id="@+id/fragment_backpack_import_ical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Importer le fichier .ical"/>
-
 </LinearLayout>

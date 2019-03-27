@@ -79,14 +79,6 @@ public class BackpackFragment extends Fragment {
             }
         });
 
-        Button importButton = mView.findViewById(R.id.fragment_backpack_import_ical);
-        importButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTimetable.importIcalFile();
-            }
-        });
-
         return mView;
     }
 
