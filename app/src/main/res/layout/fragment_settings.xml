@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:text="Importation d'un emploi du temps"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="@android:color/black"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Le fichier doit être situé dans : SD/Android/data/com.saint_gab.sacconnecte/files/calendar.ical"
+        android:text="Le fichier doit être situé dans : Android/data/com.saint_gab.sacconnecte/files/calendar.ical"
         android:paddingHorizontal="15dp"/>
 
     <TextView

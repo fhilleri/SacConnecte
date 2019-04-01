@@ -140,7 +140,7 @@ public class BackpackContent {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, "com.saint_gab.sacconnecte")
                 .setSmallIcon(R.drawable.ic_logosac)
                 .setContentTitle("Sac connecté")
-                .setContentText("Il vous manque " + expectedEquipments.size() + " fournitures")
+                .setContentText(expectedEquipments.size() > 0 ? "Il vous manque " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " matériels" : " matériel") : "Vous avez tout votre matériel")
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

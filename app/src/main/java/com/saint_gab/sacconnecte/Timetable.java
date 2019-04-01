@@ -372,10 +372,13 @@ public class Timetable {
 
     private void loadEquipment(String str)
     {
-        String[] equipmentsStr = str.split(";");
-        for (int i=0; i<equipmentsStr.length; i++)
+        if (!str.isEmpty())
         {
-            mEquipments.add(new Equipment(equipmentsStr[i]));
+            String[] equipmentsStr = str.split(";");
+            for (int i=0; i<equipmentsStr.length; i++)
+            {
+                mEquipments.add(new Equipment(equipmentsStr[i]));
+            }
         }
     }
 
