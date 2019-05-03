@@ -63,7 +63,7 @@ public class Subject {
     {
         if (mLessons.contains(lesson))
         {
-            mLessons.remove(mLessons.indexOf(lesson));
+            mLessons.remove(lesson);
         } else {
             Log.i("Subject", "Unable to remove lesson");
         }

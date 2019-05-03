@@ -96,10 +96,13 @@ public class DayFragment extends Fragment {
 
     public void delete(int index)
     {
+        Log.i("Lesson", "delete lesson, day : " + mIndex + ", lesson : " + index);
         mTimetable.deleteLesson(mIndex, index);
         lessons = mTimetable.getLessons(index);
-        adapter = new LessonAdapter(lessons, getContext());
-        listView.setAdapter(adapter);
+        configureListView();
+        mParent.refreshViewPagerAndTabs();
+        //adapter = new LessonAdapter(lessons, getContext());
+        ///listView.setAdapter(adapter);
     }
 
 }

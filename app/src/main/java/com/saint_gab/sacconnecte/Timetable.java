@@ -19,6 +19,8 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -617,12 +619,61 @@ public class Timetable {
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
         Log.i("Timetable", "createLessonFromIcalFile: UTC : " + TimeZone.getTimeZone("UTC").getRawOffset());
-        Log.i("Timetable", "createLessonFromIcalFile: Paris : " + TimeZone.getDefault().getRawOffset());
-        int timeOffset = TimeZone.getDefault().getRawOffset() / 3600000;
+        Log.i("Timetable", "createLessonFromIcalFile: default : " + TimeZone.getDefault().getRawOffset());
+        Log.i("Timetable", "createLessonFromIcalFile: Paris : " + TimeZone.getTimeZone("UTC+2").getRawOffset());
+        int timeOffset = TimeZone.getTimeZone("Europe/Paris").getRawOffset() / 3600000;
+        Log.i("Timetable", "createLessonFromIcalFile: timeOffset = " + timeOffset);
 
+
+        // ---Convertion de l'heure de début---
+        //String utcDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE) + "-" + calendar.get(Calendar.SECOND);
+        String utcDateStartTime = Integer.valueOf(strParts[0].substring(0, 4)) + "-" + Integer.valueOf(strParts[0].substring(4, 6)) + "-" + Integer.valueOf(strParts[0].substring(6, 8)) + "-" + Integer.valueOf(strParts[0].substring(9, 11)) + "-" + Integer.valueOf(strParts[0].substring(11, 13)) + "-" + Integer.valueOf(strParts[0].substring(13, 15));
+        Log.i("Timetable", "createLessonFromIcalFile: heure UTC : " + utcDateStartTime);
+        SimpleDateFormat sourceFormatStartTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        sourceFormatStartTime.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date parsedStartTime = null; // => Date is in UTC now
+        try {
+            parsedStartTime = sourceFormatStartTime.parse(utcDateStartTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat destFormatStartTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        destFormatStartTime.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+
+        String frenchDateStringStartTime = destFormatStartTime.format(parsedStartTime);
+        String[] frenchDateStringsStartTime = frenchDateStringStartTime.split("-");
+        Log.i("Timetable", "createLessonFromIcalFile: heure française : " + frenchDateStringStartTime);
+
+
+        // ---Convertion de l'heure de fin---
+        //String utcDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE) + "-" + calendar.get(Calendar.SECOND);
+        String utcDateEndTime = Integer.valueOf(strParts[1].substring(0, 4)) + "-" + Integer.valueOf(strParts[1].substring(4, 6)) + "-" + Integer.valueOf(strParts[1].substring(6, 8)) + "-" + Integer.valueOf(strParts[1].substring(9, 11)) + "-" + Integer.valueOf(strParts[1].substring(11, 13)) + "-" + Integer.valueOf(strParts[1].substring(13, 15));
+        Log.i("Timetable", "createLessonFromIcalFile: heure UTC : " + utcDateEndTime);
+        SimpleDateFormat sourceFormatEndTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        sourceFormatEndTime.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date parsedEndTime = null; // => Date is in UTC now
+        try {
+            parsedEndTime = sourceFormatEndTime.parse(utcDateEndTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat destFormatEndTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        destFormatEndTime.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+
+        String frenchDateStringEndTime = destFormatEndTime.format(parsedEndTime);
+        String[] frenchDateStringsEndTime = frenchDateStringEndTime.split("-");
+        Log.i("Timetable", "createLessonFromIcalFile: heure française : " + frenchDateStringEndTime);
+
+
+
+
+
+
+        Log.i("Timetable", "createLessonFromIcalFile: defautl timezone = " + calendar.getTimeZone().getID());
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        calendar.set(Integer.valueOf(strParts[0].substring(0, 4)), Integer.valueOf(strParts[0].substring(4, 6)) - 1, Integer.valueOf(strParts[0].substring(6, 8)), Integer.valueOf(strParts[0].substring(9, 11)) + timeOffset, Integer.valueOf(strParts[0].substring(11, 13)));
-        calendar.setTimeZone(TimeZone.getTimeZone("Paris"));
+        calendar.set(Integer.valueOf(strParts[0].substring(0, 4)), Integer.valueOf(strParts[0].substring(4, 6)) - 1, Integer.valueOf(strParts[0].substring(6, 8)), Integer.valueOf(strParts[0].substring(9, 11)), Integer.valueOf(strParts[0].substring(11, 13)));
         Log.i("Timetable", "createLessonFromIcalFile: YEAR = " + calendar.get(Calendar.YEAR) + "  expected = " + Integer.parseInt(strParts[0].substring(0, 4)) + "  string = " + strParts[0].substring(0, 4));
         Log.i("Timetable", "createLessonFromIcalFile: MONTH = " + calendar.get(Calendar.MONTH) + "  expected = " + Integer.parseInt(strParts[0].substring(4, 6)) + "  string = " + strParts[0].substring(4, 6));
         Log.i("Timetable", "createLessonFromIcalFile: DAYOFMONTH = " + calendar.get(Calendar.DAY_OF_MONTH) + "  expected = " + Integer.parseInt(strParts[0].substring(6, 8)) + "  string = " + strParts[0].substring(6, 8));
@@ -632,11 +683,11 @@ public class Timetable {
         Log.i("Timetable", "createLessonFromIcalFile: str = " + strParts[0] + "   day of week = " + dayOfWeek);
         Log.i("Timetable", " ");
 
-        String startTime = calendar.get(Calendar.HOUR_OF_DAY ) + "h" + calendar.get(Calendar.MINUTE);
+        String startTime = frenchDateStringsStartTime[3] + "h" + frenchDateStringsStartTime[4];
         Log.i("Timetable", "createLessonFromIcalFile: startTime = " + startTime);
 
-        calendar.set(Integer.valueOf(strParts[1].substring(0, 4)), Integer.valueOf(strParts[1].substring(4, 6)) - 1, Integer.valueOf(strParts[1].substring(6, 8)), Integer.valueOf(strParts[1].substring(9, 11)) + timeOffset, Integer.valueOf(strParts[1].substring(11, 13)));
-        String endTime = calendar.get(Calendar.HOUR_OF_DAY ) + "h" + calendar.get(Calendar.MINUTE);
+        //calendar.set(Integer.valueOf(strParts[1].substring(0, 4)), Integer.valueOf(strParts[1].substring(4, 6)) - 1, Integer.valueOf(strParts[1].substring(6, 8)), Integer.valueOf(strParts[1].substring(9, 11)) + timeOffset, Integer.valueOf(strParts[1].substring(11, 13)));
+        String endTime = frenchDateStringsEndTime[3] + "h" + frenchDateStringsEndTime[4];
         Log.i("Timetable", "createLessonFromIcalFile: endTime = " + endTime);
 
         Log.i("Timetable", "createLessonFromIcalFile: strParts[2] = " + strParts[2]);

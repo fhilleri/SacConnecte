@@ -1,5 +1,7 @@
 package com.saint_gab.sacconnecte;
 
+import android.util.Log;
+
 public class Time {
 
     private int mHour;
@@ -7,7 +9,12 @@ public class Time {
 
     public Time(String str)
     {
+        Log.i("Time", "Time: timeStr = " + str);
         String[] arguments = str.split("h");
+        if (arguments[0].charAt(0) == '0')
+        {
+            arguments[0] = arguments[0].substring(1);
+        }
         mHour = Integer.decode(arguments[0]);
         mMinute = Integer.decode(arguments[1]);
     }

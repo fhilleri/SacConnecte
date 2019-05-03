@@ -64,8 +64,15 @@ public class TimetableFragment extends Fragment implements NewLessonDialogFragme
         mTabs.setTabMode(TabLayout.MODE_FIXED);
     }
 
+    public void refreshViewPagerAndTabs()
+    {
+        int tabFocus = mTabs.getSelectedTabPosition();
+        configureViewPagerAndTabs();
+        mTabs.getTabAt(tabFocus).select();
+    }
 
-    private void configureViewPagerAndTabs()
+
+    public void configureViewPagerAndTabs()
     {
         //Get ViewPager from layout
         ViewPager pager = (ViewPager)mView.findViewById(R.id.fragment_timetable_activity_main_viewpager);
