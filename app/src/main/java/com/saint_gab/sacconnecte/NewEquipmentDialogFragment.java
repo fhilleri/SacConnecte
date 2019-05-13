@@ -70,9 +70,9 @@ public class NewEquipmentDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(editing ? "Modification" : "Nouveau materiel");
+        builder.setTitle(editing ? getString(R.string.dialog_framgent_new_equipment_title_edition) : getString(R.string.dialog_framgent_new_equipment_title_new));
         builder.setView(mView);
-        builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton( editing ? getString(R.string.button_edit) : getString(R.string.button_add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int errorCode = verifyContent();
@@ -84,7 +84,7 @@ public class NewEquipmentDialogFragment extends DialogFragment {
                 else displayErrors(errorCode);
             }
         });
-        builder.setNegativeButton("Annuler", null);
+        builder.setNegativeButton(getString(R.string.button_cancel), null);
 
         mName = mView.findViewById(R.id.dialog_fragment_equipment_name);
         mId = mView.findViewById(R.id.dialog_fragment_equipment_color);
@@ -127,16 +127,16 @@ public class NewEquipmentDialogFragment extends DialogFragment {
         switch(errorValue)
         {
             case EMPTY_EDIT_TEXT:
-                Toast.makeText(getContext(), "Les chaines de caractères ne doivent pas être vides", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_equipment_error_empty_edit_text), Toast.LENGTH_LONG).show();
                 break;
             case ILLEGAL_ID_CHARACTERS:
-                Toast.makeText(getContext(), "Les identifiants ne peuvent être constitué que de : {1023456789ABCDEF}", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_equipment_error_illegal_id_characters), Toast.LENGTH_LONG).show();
                 break;
             case WRONG_ID_CHARACTER_NUMBER:
-                Toast.makeText(getContext(), "Les identifiants doivent être composé de 12 caractères", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_equipment_error_wrong_id_character_number), Toast.LENGTH_LONG).show();
                 break;
             case ALREADY_EXIST:
-                Toast.makeText(getContext(), "Cet identifiant est déjà attribué", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_equipment_error_already_exist), Toast.LENGTH_LONG).show();
                 break;
         }
     }

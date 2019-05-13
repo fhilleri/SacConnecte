@@ -37,19 +37,19 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ajouter"
+            android:text="@string/button_add"
             android:id="@+id/fragment_timetable_button_new"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modifier"
+            android:text="@string/button_edit"
             android:id="@+id/fragment_timetable_button_edit"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Supprimer"
+            android:text="@string/button_delete"
             android:id="@+id/fragment_timetable_button_delete"/>
 
     </LinearLayout>

@@ -127,8 +127,8 @@ public class BluetoothFragment extends Fragment {
 
         if (mBTArrayAdapter == null) {
             // Device does not support Bluetooth
-            mBluetoothStatus.setText("Status: Bluetooth non trouvé");
-            Toast.makeText(getContext(), "Appareil Bluetooth non trouvé!", Toast.LENGTH_SHORT).show();
+            mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_stat_bluetooth_not_found));
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_device_not_found), Toast.LENGTH_SHORT).show();
         } else
 
         {
@@ -172,11 +172,11 @@ public class BluetoothFragment extends Fragment {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
 
             if (!mBTAdapter.isEnabled()) {
-                Toast.makeText(getContext(), "Bluetooth désactivé", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_disabled), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            mBluetoothStatus.setText("Connection en cours...");
+            mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_stat_conneting));
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             final String address = info.substring(info.length() - 17);
@@ -193,7 +193,7 @@ public class BluetoothFragment extends Fragment {
                         mBTSocket = createBluetoothSocket(device);
                     } catch (IOException e) {
                         fail = true;
-                        Toast.makeText(getContext(), "Création du socket impossible", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_socket_creation_impossible), Toast.LENGTH_SHORT).show();
                     }
                     // Establish the Bluetooth socket connection.
                     try {
@@ -206,7 +206,7 @@ public class BluetoothFragment extends Fragment {
                                     .sendToTarget();
                         } catch (IOException e2) {
                             //insert code to deal with this
-                            Toast.makeText(getContext(), "Création du socket impossible", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_socket_creation_impossible), Toast.LENGTH_SHORT).show();
                         }
                     }
                     if (fail == false) {
@@ -230,10 +230,10 @@ public class BluetoothFragment extends Fragment {
         if (!mBTAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            mBluetoothStatus.setText("Bluetooth activé");
-            Toast.makeText(getContext(), "Bluetooth activé", Toast.LENGTH_SHORT).show();
+            mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_bluetooth_enabled));
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_enabled), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Le Bluetooth est déjà activé", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_already_on), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -246,31 +246,31 @@ public class BluetoothFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
-                mBluetoothStatus.setText("Activé");
+                mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_enabled));
             } else
-                mBluetoothStatus.setText("Disactivé");
+                mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_disabled));
         }
     }
 
     private void bluetoothOff(View view) {
         mBTAdapter.disable(); // turn off
-        mBluetoothStatus.setText("Bluetooth désactivé");
-        Toast.makeText(getContext(), "Bluetooth désactivé", Toast.LENGTH_SHORT).show();
+        mBluetoothStatus.setText(getString(R.string.fragment_bluetooth_bluetooth_disabled));
+        Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_disabled), Toast.LENGTH_SHORT).show();
     }
 
     private void discover(View view) {
         // Check if the device is already discovering
         if (mBTAdapter.isDiscovering()) {
             mBTAdapter.cancelDiscovery();
-            Toast.makeText(getContext(), "Découverte arrêtée", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_discovering_stopped), Toast.LENGTH_SHORT).show();
         } else {
             if (mBTAdapter.isEnabled()) {
                 mBTArrayAdapter.clear(); // clear items
                 mBTAdapter.startDiscovery();
-                Toast.makeText(getContext(), "Découverte Commencée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_discovering_started), Toast.LENGTH_SHORT).show();
                 getContext().registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
             } else {
-                Toast.makeText(getContext(), "Le Bluetooth est déactivé", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_is_off), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -295,9 +295,9 @@ public class BluetoothFragment extends Fragment {
             for (BluetoothDevice device : mPairedDevices)
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
-            Toast.makeText(getContext(), "Afficher les appareils associés", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_PairedBtn), Toast.LENGTH_SHORT).show();
         } else
-            Toast.makeText(getContext(), "Le Bluetooth est désactivé", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.fragment_bluetooth_bluetooth_is_off), Toast.LENGTH_SHORT).show();
     }
 
 

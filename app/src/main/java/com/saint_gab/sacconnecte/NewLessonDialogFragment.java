@@ -55,9 +55,9 @@ public class NewLessonDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(editing ? "Modification" : "Nouveau cours");
+        builder.setTitle(editing ? getString(R.string.dialog_fragment_new_lesson_title_edition) : getString(R.string.dialog_fragment_new_lesson_title_new));
         builder.setView(mView);
-        builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton( editing ? getString(R.string.button_edit) : getString(R.string.button_add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int errorCode = verifyContent();
@@ -70,7 +70,7 @@ public class NewLessonDialogFragment extends DialogFragment {
                 }
             }
         });
-        builder.setNegativeButton("Annuler", null);
+        builder.setNegativeButton(getString(R.string.button_cancel), null);
 
         configureSpinner();
         configureTimePickers();
@@ -131,7 +131,7 @@ public class NewLessonDialogFragment extends DialogFragment {
         switch(errorValue)
         {
             case WRONG_TIMES_ORDER:
-                Toast.makeText(getContext(), "Les horaires ne sont pas dans le bon sens", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_lesson_error_wrong_times_order), Toast.LENGTH_LONG).show();
                 break;
         }
     }

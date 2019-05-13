@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -47,12 +48,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentEquipment.newEquipmentFromId(id);
     }
 
+    public void reloadSettingFragment()
+    {
+        fragmentSettings = null;
+        showSettingsFragment();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Log.i("MainActivity", "onCreate ");
         super.onCreate(savedInstanceState);
 
         Log.i("MainActivity", "super.onCreate");
+        configureLanguage();
 
         createNotificationChannel();
         setContentView(R.layout.activity_main);
@@ -68,6 +77,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         showBackpackFragment();//Affichage de la page backpack au lancement de l'appli
     }
 
+    private void configureLanguage()
+    {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        String languageCode = pref.getString("language", "fr");
+        Log.i("Language", "language is : " + languageCode);
+        LanguageHelper.changeLocale(getResources(), languageCode);
+    }
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -135,14 +151,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //création de chaque page et affichage de celles ci
     private void showBackpackFragment()
     {
-        toolbar.setTitle("Sac à dos");
+        toolbar.setTitle(getString(R.string.menu_backpack));
         if (this.fragmentBackpack == null) this.fragmentBackpack = BackpackFragment.newInstance(mBackpackContent, mTimetable, this);
         this.startTransactionFragment(this.fragmentBackpack);
     }
 
     private void showTimetableFragment()
     {
-        toolbar.setTitle("Emploi du temps");
+        toolbar.setTitle(getString(R.string.menu_timetable));
         if (this.fragmentTimetable == null) this.fragmentTimetable = TimetableFragment.newInstance(mTimetable);
         this.startTransactionFragment(this.fragmentTimetable);
 
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showSubjectFragment()
     {
-        toolbar.setTitle("Matières");
+        toolbar.setTitle(getString(R.string.menu_subjects));
         if (this.fragmentSubject == null) this.fragmentSubject = SubjectFragment.newInstance(mTimetable);
         this.startTransactionFragment(this.fragmentSubject);
 
@@ -158,22 +174,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showEquipmentFragment()
     {
-        toolbar.setTitle("Materiel");
+        toolbar.setTitle(getString(R.string.menu_equipments));
         if (this.fragmentEquipment == null) this.fragmentEquipment = EquipmentFragment.newInstance(mTimetable);
         this.startTransactionFragment(this.fragmentEquipment);
     }
 
     private void showBluetoothFragment()
     {
-        toolbar.setTitle("Bluetooth");
+        toolbar.setTitle(getString(R.string.menu_bluetooth));
         if (this.fragmentBluetooth == null) this.fragmentBluetooth = BluetoothFragment.newInstance(mBackpackContent);
         this.startTransactionFragment(this.fragmentBluetooth);
     }
 
     private void showSettingsFragment()
     {
-        toolbar.setTitle("Paramètres");
-        if (this.fragmentSettings == null) this.fragmentSettings = SettingsFragment.newInstance(mTimetable);
+        toolbar.setTitle(getString(R.string.menu_settings));
+        if (this.fragmentSettings == null) this.fragmentSettings = SettingsFragment.newInstance(mTimetable, this);
         this.startTransactionFragment(this.fragmentSettings);
     }
 
@@ -196,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         this.toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Sac à dos");
+        getSupportActionBar().setTitle(getString(R.string.menu_backpack));
     }
 
     // 2 - Configuration de Drawer Layout
@@ -222,6 +238,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureBackpackContent()
     {
-        mBackpackContent = new BackpackContent(mTimetable, this);
+        mBackpackContent = new BackpackContent(mTimetable, this, getResources());
     }
 }

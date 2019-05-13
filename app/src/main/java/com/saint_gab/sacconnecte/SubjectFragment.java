@@ -96,7 +96,7 @@ public class SubjectFragment extends Fragment implements NewSubjectDialogFragmen
         //Get ViewPager from layout
         ListView listView = (ListView)mView.findViewById(R.id.fragment_subject_list_view);
         //Set Adapter DayPageAdapter and glue it together
-        listView.setAdapter(new SubjectAdapter(mTimetable, getContext()));
+        listView.setAdapter(new SubjectAdapter(mTimetable, getContext(), getResources()));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

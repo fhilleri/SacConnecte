@@ -1,12 +1,14 @@
 <resources>
-    <string name="app_name">SacConnecte</string>
+    <string name="app_name">Sac Connecté</string>
+
+    <string name="language">fr</string>
 
     <!-- Used in NavigationDrawer -->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string-array name="days_name">
         <item>Lun</item>
@@ -15,4 +17,95 @@
         <item>Jeu</item>
         <item>Ven</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>Français</item>
+        <item>Anglais</item>
+    </string-array>
+
+    <!-- Menu -->
+    <string name="menu_backpack">Sac à dos</string>
+    <string name="menu_header_timetable">Gestion de l\'emploi du temps</string>
+    <string name="menu_timetable">Emploi du temps</string>
+    <string name="menu_subjects">Matières</string>
+    <string name="menu_equipments">Matériel</string>
+    <string name="menu_header_configuration">Configuration</string>
+    <string name="menu_bluetooth">Bluetooth</string>
+    <string name="menu_settings">Paramètres</string>
+
+    <!-- fragmen_setting.xml -->
+
+    <string name="fragment_settings_timetable_importation">Importation d\'un emploi du temps</string>
+    <string name="fragment_settings_file_location">Le fichier doit être situé dans : Android/data/com.saint_gab.sacconnecte/files/calendar.ical</string>
+    <string name="fragment_settings_warning">Attention : L\'importation va écraser l\'emploi du temps actuel</string>
+    <string name="fragment_settings_import_button">Importer un fichier .ical</string>
+    <string name="fragment_settings_language_title">Modifier la langue</string>
+    <string name="fragment_settings_choose_langague">Langue :</string>
+
+    <!-- dialog_fragment_new_equipment -->
+    <string name="dialog_fragment_new_equipment_name">Nom</string>
+    <string name="dialog_fragment_new_equipment_color">Identifiant RFID</string>
+    <string name="dialog_framgent_new_equipment_title_edition">Modification</string>
+    <string name="dialog_framgent_new_equipment_title_new">Nouveau materiel</string>
+
+    <string name="dialog_fragment_new_equipment_error_empty_edit_text">Les chaines de caractères ne doivent pas être vides</string>
+    <string name="dialog_fragment_new_equipment_error_illegal_id_characters">Les identifiants ne peuvent être constitué que de : {1023456789ABCDEF}</string>
+    <string name="dialog_fragment_new_equipment_error_wrong_id_character_number">Les identifiants doivent être composé de 12 caractères</string>
+    <string name="dialog_fragment_new_equipment_error_already_exist">Cet identifiant est déjà attribué</string>
+
+    <!-- dialog_fragment_new_lesson -->
+    <string name="dialog_fragment_new_lesson_start_time">Heure de début :</string>
+    <string name="dialog_fragment_new_lesson_end_time">Heure de fin :</string>
+    <string name="dialog_fragment_new_lesson_title_edition">Modification</string>
+    <string name="dialog_fragment_new_lesson_title_new">Nouveau cours</string>
+
+    <string name="dialog_fragment_new_lesson_error_wrong_times_order">Les horaires ne sont pas dans le bon sens</string>
+
+    <!-- dialog_fragment_new_subject -->
+    <string name="dialog_fragment_new_subject_name">Nom</string>
+    <string name="dialog_fragment_new_subject_color">Couleur</string>
+    <string name="dialog_fragment_new_subject_title_edition">Modification</string>
+    <string name="dialog_fragment_new_subject_title_new">Nouvelle matière</string>
+
+    <string name="dialog_fragment_new_subject_error_empty_edit_text">Les chaines de caractères ne doivent pas être vides</string>
+    <string name="dialog_fragment_new_subject_error_wrong_color">La couleur doit être sous la forme hexadécimal : #ffffff</string>
+    <string name="dialog_fragment_new_subject_error_already_exist">Cette matière existe déjà</string>
+
+    <!-- fragment_backpack -->
+    <string name="fragment_backpack_expected_content_title">Contenu attendu :</string>
+    <string name="fragment_backpack_current_content_title">Contenu du sac :</string>
+
+    <!-- buttons -->
+    <string name="button_add">Ajouter</string>
+    <string name="button_edit">Modifier</string>
+    <string name="button_delete">Supprimer</string>
+    <string name="button_cancel">Annuler</string>
+
+    <!-- subjectAdapter -->
+    <string name="subjectAdapter_lessons">cours</string>
+
+    <!-- Toasts -->
+    <string name="toast_relaunch_the_app">L\'application doit être redémarée pour que tout les changements prennent effet</string>
+
+    <!-- fragment_bluetooth -->
+    <string name="fragment_bluetooth_readBuffer">&lt;Buffer de lecture&gt;</string>
+    <string name="fragment_bluetooth_bluetoothStatus">&lt;Statut bluetooth&gt;</string>
+    <string name="fragment_bluetooth_scan">Activer le Bluetooth</string>
+    <string name="fragment_bluetooth_off">Désactiver le Bluetooth</string>
+    <string name="fragment_bluetooth_PairedBtn">Afficher les appareils associés</string>
+    <string name="fragment_bluetooth_discover">Découvrir de nouveaux appareils</string>
+
+    <string name="fragment_bluetooth_stat_bluetooth_not_found">Statut: Bluetooth non trouvé</string>
+    <string name="fragment_bluetooth_bluetooth_device_not_found">Appareil Bluetooth non trouvé!</string>
+    <string name="fragment_bluetooth_bluetooth_disabled">Bluetooth désactivé</string>
+    <string name="fragment_bluetooth_stat_conneting">Connection en cours...</string>
+    <string name="fragment_bluetooth_socket_creation_impossible">Création du socket impossible</string>
+    <string name="fragment_bluetooth_bluetooth_enabled">Bluetooth activé</string>
+    <string name="fragment_bluetooth_bluetooth_already_on">Le Bluetooth est déjà activé</string>
+    <string name="fragment_bluetooth_enabled">Activé</string>
+    <string name="fragment_bluetooth_disabled">Désactivé</string>
+    <string name="fragment_bluetooth_discovering_stopped">Découverte arrêtée</string>
+    <string name="fragment_bluetooth_discovering_started">Découverte Commencée</string>
+    <string name="fragment_bluetooth_bluetooth_is_off">Le Bluetooth est déactivé</string>
+
 </resources>

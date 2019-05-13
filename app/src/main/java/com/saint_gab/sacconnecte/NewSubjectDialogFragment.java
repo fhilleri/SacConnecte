@@ -80,9 +80,9 @@ public class NewSubjectDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(editing ? "Modification" : "Nouvelle matière");
+        builder.setTitle(editing ? getString(R.string.dialog_fragment_new_subject_title_edition) : getString(R.string.dialog_fragment_new_subject_title_new));
         builder.setView(mView);
-        builder.setPositiveButton( editing ? "Modifier" : "Ajouter", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton( editing ? getString(R.string.button_edit) : getString(R.string.button_add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int errorCode = verifyContent();
@@ -94,7 +94,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
                 else displayErrors(errorCode);
             }
         });
-        builder.setNegativeButton("Annuler", null);
+        builder.setNegativeButton(getString(R.string.button_cancel), null);
 
         mName = mView.findViewById(R.id.dialog_fragment_subject_name);
         mColor = mView.findViewById(R.id.dialog_fragment_subject_color);
@@ -209,13 +209,13 @@ public class NewSubjectDialogFragment extends DialogFragment {
         switch(errorValue)
         {
             case EMPTY_EDIT_TEXT:
-                Toast.makeText(getContext(), "Les chaines de caractères ne doivent pas être vides", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_subject_error_empty_edit_text), Toast.LENGTH_LONG).show();
                 break;
             case WRONG_COLOR:
-                Toast.makeText(getContext(), "La couleur doit être sous la forme hexadécimal : #ffffff", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_subject_error_wrong_color), Toast.LENGTH_LONG).show();
                 break;
             case ALREADY_EXIST:
-                Toast.makeText(getContext(), "Cette matière existe déjà", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.dialog_fragment_new_subject_error_already_exist), Toast.LENGTH_LONG).show();
                 break;
         }
     }

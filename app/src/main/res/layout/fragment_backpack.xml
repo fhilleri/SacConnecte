@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contenu attendu :"
+            android:text="@string/fragment_backpack_expected_content_title"
             android:textSize="25dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"/>
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contenu du sac :"
+            android:text="@string/fragment_backpack_current_content_title"
             android:textSize="25dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"/>

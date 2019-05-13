@@ -1,6 +1,7 @@
 package com.saint_gab.sacconnecte;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> //Permet d'adapter un 
 {
     private Timetable mTimetable;
     Context mContext;
+    Resources mRes;
 
     //Permet de stocker toutes les vues d'un élément
     private static class ViewHolder
@@ -20,9 +22,10 @@ public class SubjectAdapter extends ArrayAdapter<Subject> //Permet d'adapter un 
         TextView LessonCount;
     }
 
-    public SubjectAdapter(Timetable timetable, Context context) {
+    public SubjectAdapter(Timetable timetable, Context context, Resources res) {
         super(context, R.layout.row_subject, timetable.getSubjects());
         this.mContext = context;
+        mRes = res;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> //Permet d'adapter un 
 
         viewHolder.Name.setText(subject.getName());
         int lessonCount = subject.getLessonCount();
-        viewHolder.LessonCount.setText(lessonCount + " cours");
+        viewHolder.LessonCount.setText(lessonCount + " " + mRes.getString(R.string.subjectAdapter_lessons));
         result.setBackgroundColor(Color.parseColor(subject.getColor()));
 
         return result;

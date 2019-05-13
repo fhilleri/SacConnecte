@@ -9,14 +9,14 @@
         android:id="@+id/dialog_fragment_equipment_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nom"
+        android:hint="@string/dialog_fragment_new_equipment_name"
         android:layout_gravity="center_horizontal"/>
 
     <EditText
         android:id="@+id/dialog_fragment_equipment_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Identifiant RFID ()"
+        android:hint="@string/dialog_fragment_new_equipment_color"
         android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

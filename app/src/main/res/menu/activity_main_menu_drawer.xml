@@ -6,27 +6,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/activity_main_drawer_backpack"
-            android:title="Sac à dos"
+            android:title="@string/menu_backpack"
             android:icon="@drawable/ic_logosac"/>
     </group>
 
-    <item android:title="Gestion de l'emploi du temps">
+    <item android:title="@string/menu_header_timetable">
         <menu>
             <group android:checkableBehavior="single">
 
                 <item
                     android:id="@+id/activity_main_drawer_timetable"
-                    android:title="Emploi du temps"
+                    android:title="@string/menu_timetable"
                     android:icon="@drawable/ic_schedule_black_24dp"/>
 
                 <item
                     android:id="@+id/activity_main_drawer_subjects"
-                    android:title="Matières"
+                    android:title="@string/menu_subjects"
                     android:icon="@drawable/ic_school_black_24dp"/>
 
                 <item
                     android:id="@+id/activity_main_drawer_equipment"
-                    android:title="Materiel"
+                    android:title="@string/menu_equipments"
                     android:icon="@drawable/ic_style_black_24dp"/>
 
 
@@ -34,7 +34,7 @@
         </menu>
     </item>
 
-    <item android:title="Configuration">
+    <item android:title="@string/menu_header_configuration">
 
         <menu>
             <group android:checkableBehavior="single">
@@ -42,12 +42,12 @@
                 <item
                     android:icon="@drawable/ic_bluetooth_black_24dp"
                     android:id="@+id/activity_main_drawer_bluetooth"
-                    android:title="Bluetooth"/>
+                    android:title="@string/menu_bluetooth"/>
 
                 <item
                     android:icon="@drawable/ic_settings_black_24dp"
                     android:id="@+id/activity_main_drawer_settings"
-                    android:title="Paramètres"/>
+                    android:title="@string/menu_settings"/>
 
             </group>
         </menu>

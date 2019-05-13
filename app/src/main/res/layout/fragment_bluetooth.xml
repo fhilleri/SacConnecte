@@ -30,7 +30,7 @@
                 android:layout_weight="0.9"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="\u003cBuffer de lecture\u003e"
+                android:text="@string/fragment_bluetooth_readBuffer"
                 android:id="@+id/fragment_bluetooth_readBuffer"
                 android:layout_centerHorizontal="true" />
         </LinearLayout>
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
 
-                android:text="\u003cStatus Bluetooth\u003e"
+                android:text="@string/fragment_bluetooth_bluetoothStatus"
                 android:id="@+id/fragment_bluetooth_bluetoothStatus"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -63,7 +63,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Activer le bluetooth"
+            android:text="@string/fragment_bluetooth_scan"
             android:id="@+id/fragment_bluetooth_scan"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/fragment_bluetooth_off" />
@@ -71,7 +71,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Désactiver le bluetooth"
+            android:text="@string/fragment_bluetooth_off"
             android:id="@+id/fragment_bluetooth_off"
             android:layout_alignBottom="@+id/fragment_bluetooth_scan"
             android:layout_toEndOf="@+id/fragment_bluetooth_PairedBtn"
@@ -80,7 +80,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Afficher les appareils associés"
+            android:text="@string/fragment_bluetooth_PairedBtn"
             android:id="@+id/fragment_bluetooth_PairedBtn"
             android:layout_below="@+id/fragment_bluetooth_scan"
             android:layout_toStartOf="@+id/fragment_bluetooth_discover" />
@@ -88,7 +88,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Découvrir de nouveaux appareils"
+            android:text="@string/fragment_bluetooth_discover"
             android:id="@+id/fragment_bluetooth_discover"
             android:layout_below="@+id/fragment_bluetooth_off" />
 

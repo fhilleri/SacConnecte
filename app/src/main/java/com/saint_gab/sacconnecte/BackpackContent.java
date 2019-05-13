@@ -3,6 +3,7 @@ package com.saint_gab.sacconnecte;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -19,16 +20,18 @@ public class BackpackContent {
     private ArrayList<Equipment> mEquipments;
     private ArrayList<String> mUnknowEquipmentsId;
     private BackpackFragment mBackpackFragment;
+    private Resources mRes;
 
     private Context mContext;
 
-    public BackpackContent(Timetable timetable, Context context)
+    public BackpackContent(Timetable timetable, Context context, Resources res)
     {
         Log.i("BackpackContent", "Initialisation");
         mContext = context;
         mTimetable = timetable;
         mEquipments = new ArrayList<>();
         mUnknowEquipmentsId = new ArrayList<>();
+        mRes = res;
     }
 
     public void setBackpackFragment(BackpackFragment backpackFragment)
@@ -139,11 +142,13 @@ public class BackpackContent {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, "com.saint_gab.sacconnecte")
                 .setSmallIcon(R.drawable.ic_logosac)
-                .setContentTitle("Sac connecté")
-                .setContentText(expectedEquipments.size() > 0 ? "Il vous manque " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " matériels" : " matériel") : "Vous avez tout votre matériel")
+                .setContentTitle(mRes.getString(R.string.app_name))
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (mRes.getString(R.string.language).equals("fr")) builder.setContentText(expectedEquipments.size() > 0 ? "Il vous manque " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " matériels" : " matériel") : "Vous avez tout votre matériel");
+        builder.setContentText(expectedEquipments.size() > 0 ? "You miss " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " equipments" : " equipment") : "You have all your equipments");
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
 
