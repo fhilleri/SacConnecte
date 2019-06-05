@@ -17,7 +17,8 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/lesson_start_time"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#99000000"/>
 
     <TextView
         android:id="@+id/lesson_start_time"
@@ -29,7 +30,8 @@
         android:layout_marginTop="0dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="20dp"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:textColor="#99000000"/>
 
     <TextView
         android:id="@+id/lesson_end_time"
@@ -41,7 +43,8 @@
         android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="20dp"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:textColor="#99000000"/>
 
     <View
         android:layout_width="1dp"

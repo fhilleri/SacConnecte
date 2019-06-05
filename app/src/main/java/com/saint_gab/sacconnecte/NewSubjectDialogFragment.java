@@ -224,7 +224,7 @@ public class NewSubjectDialogFragment extends DialogFragment {
     {
         int result = CORRECT;
         if (mName.getText().toString().isEmpty()
-            && mColor.getText().toString().isEmpty()) result = EMPTY_EDIT_TEXT;
+            || mColor.getText().toString().isEmpty()) result = EMPTY_EDIT_TEXT;
         else if(mColor.getText().toString().length() != 7) result = WRONG_COLOR;
         else if(mTimetable.subjectExist(mName.getText().toString()) && !editing) result = ALREADY_EXIST;
 

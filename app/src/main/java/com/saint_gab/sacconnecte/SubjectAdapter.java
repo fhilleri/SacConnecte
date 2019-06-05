@@ -57,7 +57,7 @@ public class SubjectAdapter extends ArrayAdapter<Subject> //Permet d'adapter un 
 
         viewHolder.Name.setText(subject.getName());
         int lessonCount = subject.getLessonCount();
-        viewHolder.LessonCount.setText(lessonCount + " " + mRes.getString(R.string.subjectAdapter_lessons));
+        viewHolder.LessonCount.setText(lessonCount + " " + (lessonCount > 1 ? mRes.getString(R.string.subjectAdapter_lessons) : mRes.getString(R.string.subjectAdapter_lesson)));
         result.setBackgroundColor(Color.parseColor(subject.getColor()));
 
         return result;

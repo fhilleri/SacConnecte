@@ -21,14 +21,18 @@
     <string name="fragment_settings_import_button">Import .ical file</string>
     <string name="fragment_settings_language_title">Change Language</string>
     <string name="fragment_settings_choose_langague">Language :</string>
-    <string name="menu_subjects">Subjects</string>
-    <string name="menu_timetable">Timetable</string>
+
+    <!-- Menu -->
     <string name="menu_backpack">Backpack</string>
     <string name="menu_header_timetable">Timetable configuration</string>
+    <string name="menu_timetable">Timetable</string>
+    <string name="menu_subjects">Subjects</string>
+    <string name="menu_equipments">Equipments</string>
     <string name="menu_header_configuration">Configuration</string>
     <string name="menu_bluetooth">Bluetooth</string>
-    <string name="menu_equipments">Equipments</string>
     <string name="menu_settings">Settings</string>
+
+
     <string name="toast_relaunch_the_app">The app should be relaunch to apply the changes</string>
     <string name="dialog_fragment_new_equipment_name">Name</string>
     <string name="dialog_fragment_new_equipment_color">RFID id</string>
@@ -76,5 +80,6 @@
     <string name="fragment_bluetooth_discovering_stopped">Discovering stopped</string>
     <string name="fragment_bluetooth_discovering_started">Discovering started</string>
     <string name="fragment_bluetooth_bluetooth_is_off">Bluetooth is off</string>
+    <string name="subjectAdapter_lesson">lesson</string>
 
 </resources>

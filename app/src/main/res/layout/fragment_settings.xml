@@ -32,7 +32,7 @@
         android:textColor="@android:color/holo_red_dark"
         android:paddingHorizontal="15dp"
         android:text="@string/fragment_settings_warning"
-        android:layout_gravity="center_horizontal"/>
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/fragment_settings_import_button"

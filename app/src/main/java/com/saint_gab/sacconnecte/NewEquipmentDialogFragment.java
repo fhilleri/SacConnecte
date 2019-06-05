@@ -145,7 +145,7 @@ public class NewEquipmentDialogFragment extends DialogFragment {
     {
         int result = CORRECT;
         if (mName.getText().toString().isEmpty()
-            && mId.getText().toString().isEmpty())
+            || mId.getText().toString().isEmpty())
         {
             result = EMPTY_EDIT_TEXT;
         }

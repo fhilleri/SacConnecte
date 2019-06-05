@@ -147,8 +147,12 @@ public class BackpackContent {
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+        if (mRes.getString(R.string.language).equals("fr"))
+        {
+            Log.i("BackpackContent", "language is fr");
+        }
         if (mRes.getString(R.string.language).equals("fr")) builder.setContentText(expectedEquipments.size() > 0 ? "Il vous manque " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " matériels" : " matériel") : "Vous avez tout votre matériel");
-        builder.setContentText(expectedEquipments.size() > 0 ? "You miss " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " equipments" : " equipment") : "You have all your equipments");
+        else builder.setContentText(expectedEquipments.size() > 0 ? "You miss " + expectedEquipments.size() +  (expectedEquipments.size() > 1 ? " equipments" : " equipment") : "You have all your equipments");
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
 

@@ -83,6 +83,7 @@
 
     <!-- subjectAdapter -->
     <string name="subjectAdapter_lessons">cours</string>
+    <string name="subjectAdapter_lesson">cours</string>
 
     <!-- Toasts -->
     <string name="toast_relaunch_the_app">L\'application doit être redémarée pour que tout les changements prennent effet</string>
